@@ -1,0 +1,57 @@
+import { useNavigate } from "react-router-dom"
+import { usePaginate } from "../hooks/usePaginate"
+import { Pagination } from "../components/Pagination"
+import { Modal } from "./modals/Modal"
+import { subjectsInfo } from "../utils/subjectsInfo"
+
+export const SubjectsList = () => {
+    const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(subjectsInfo)
+    const navigate = useNavigate()
+    return (
+        <>
+            <main>
+                <table className="w-full border-collapse mx-auto">
+                    <thead>
+                        <tr>
+                            <th>Info</th>
+                            <th className="hidden md:table-cell">Teachers</th>
+                            <th>Actions</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            currentItems.map((info) =>
+                                <tr key={info.subject}>
+                                    <td onClick={() => navigate(`${info.id}`)}>
+                                        {info.subject}
+                                    </td>
+                                    <td className="hidden lg:table-cell">
+                                        {(info.teachers).join(", ")}
+                                    </td>
+                                    {/* <td className="hidden md:table-cell">{info.grade}</td> */}
+                                    {/* <td className="hidden md:table-cell">{info.classes.join(', ')}</td> */}
+                                    {/* <td className="hidden md:table-cell">{info.phone}</td> */}
+                                    {/* <td className="hidden lg:table-cell">{(info.teachers).join(", ")}</td> */}
+                                    <td className="">
+                                        <div className="flex gap-x-5 text-xl text-purple-800 justify-end md:justify-start">
+                                            <Modal table="subject" type="edit" />
+                                            <Modal table="subject" type="delete" />
+                                        </div>
+                                    </td>
+                                </tr>    
+                            )
+                        }
+                    </tbody>
+                </table>
+                <section className="py-4">
+                    <Pagination 
+                        currentPage={currentPage}
+                        lastPage={lastPage}
+                        handleNext={handleNext}
+                        handlePrevious ={handlePrevious}   
+                    />
+                </section>
+            </main>
+        </>
+    )
+}

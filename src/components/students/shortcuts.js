@@ -1,0 +1,1 @@
+export const shortcuts = ["Student's Teachers", "Student's Results", "Student's Exams", "Student's Assignments"]
