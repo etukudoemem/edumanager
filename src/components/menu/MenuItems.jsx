@@ -15,34 +15,42 @@ export const MenuItems = () => {
 
     const menu = [
         {
+            link: "/",
             title: "Dashboard",
             icon: <AiFillHome /> 
         },
         {
+            link: "teachers",
             title: "Teachers",
             icon: <GiTeacher />
         },
         {
+            link: "students",
             title: "Students",
             icon: <FaUserGraduate />
         },
         {
+            link: "parents",
             title: "Parents",
             icon: <RiParentFill />
         },
         {
+            link: "subjects",
             title: "Subjects",
             icon: <FaBookOpen />
         },
         {
+            link: "classes",
             title: "Classes",
             icon: <SiGoogleclassroom />
         },
         {
+            link: "events",
             title: "Events",
             icon: <BsCalendarEventFill />
         },
         {
+            link: "announcements",
             title: "Announcements",
             icon: <TbSpeakerphone />
         },
@@ -50,14 +58,17 @@ export const MenuItems = () => {
 
     const otherMenu =  [
                 {
+                    link: "profile",
                     title: "Profile",
                     icon: <FaUser />
                 },
                 {
+                    link: "settings",
                     title: "Settings",
                     icon: <IoIosSettings />
                 },
                 {
+                    link: "logout",
                     title: "Logout",
                     icon: <IoLogOut />
                 },
@@ -80,7 +91,7 @@ export const MenuItems = () => {
                     
                     {menu.map((item) => {
                     return (
-                        <NavLink to={`${(item.title).toLowerCase()}`} key={item.title}
+                        <NavLink to={`${(item.link)}`} key={item.title}
                             className="w-full flex items-center gap-x-2 text-2xl md:text-sm justify-center md:justify-start
                                 cursor-pointer">
                             <div className="p-3 hover:text-purple-500">
@@ -96,7 +107,7 @@ export const MenuItems = () => {
                 <section className="mt-5 border-t-1 border-slate-300 pt-4">
                     {otherMenu.map((item) => {
                     return (
-                        <NavLink to={`${(item.title).toLowerCase()}`} key={item.title}
+                        <NavLink to={`${(item.link)}`} key={item.title}
                             className="flex items-center gap-x-2 p-3 text-2xl md:text-base justify-center md:justify-start
                                 cursor-pointer">
                             <div>

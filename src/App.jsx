@@ -14,6 +14,9 @@ import { TeacherDetails } from "./pages/TeacherDetails"
 import { StudentDetails } from "./pages/StudentDetails"
 import { Home } from "./pages/Home"
 import { Announcements } from "./pages/Announcements"
+import { Signup } from "./pages/Signup"
+import { Login } from "./pages/Login"
+import { ProtectedRoute } from "./components/ProtectedRoute"
 
 
 function App() {
@@ -22,22 +25,30 @@ function App() {
     <>
         <Routes>
             {/* <Route path="/" element={<Layout />} > */}
-                <Route path="/" element={<Home />} />
-                <Route path="dashboard" element={<DashboardLayout />}>
-                    <Route index element={<Dashboard />} />
-                    <Route path="teachers" element={<Teachers />} />
-                    <Route path="teachers/:teacherID" element={<TeacherDetails />} />
-                    <Route path="students" element={<Students />} />
-                    <Route path="students/:studentID" element={<StudentDetails />} />
-                    <Route path="parents" element={<Parents />} />
-                    <Route path="subjects" element={<Subjects />} />
-                    <Route path="classes" element={<Classes />} />
-                    <Route path="events" element={<Events />} />
-                    <Route path="announcements" element={<Announcements />} />
-                    <Route path="profile" element={<Profile />} />
-                    <Route path="settings" element={<Settings />} />
-                </Route>
+                
+                    <Route element={<ProtectedRoute />} >
+                        <Route path="/" element={<DashboardLayout />}>
+                            <Route index element={<Dashboard />} />
+                            <Route path="teachers" element={<Teachers />} />
+                            <Route path="teachers/:teacherID" element={<TeacherDetails />} />
+                            <Route path="students" element={<Students />} />
+                            <Route path="students/:studentID" element={<StudentDetails />} />
+                            <Route path="parents" element={<Parents />} />
+                            <Route path="subjects" element={<Subjects />} />
+                            <Route path="classes" element={<Classes />} />
+                            <Route path="events" element={<Events />} />
+                            <Route path="announcements" element={<Announcements />} />
+                            <Route path="profile" element={<Profile />} />
+                            <Route path="settings" element={<Settings />} />
+                        </Route>
+                    </Route>
             {/* </Route> */}
+              <Route path="login">
+                  <Route index element={<Login />} />
+                  <Route path="signup" element={<Signup />} />
+                  
+              </Route>
+                
         </Routes>
     </>
   )

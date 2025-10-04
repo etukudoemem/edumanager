@@ -1,0 +1,46 @@
+import { useContext } from "react"
+import { Link } from "react-router-dom"
+import { Email } from "../components/input/Email"
+import { authContext } from "../contexts/AuthProvider"
+import { Password } from "../components/input/Password"
+import { LoginButton } from "../components/buttons/LoginButton"
+
+export const Login = () => {
+    const { signUserIn, login, signUserOut } = useContext(authContext)
+    return (
+        <>
+            <button onClick={signUserOut}
+                className="bg-purple-800 text-white">
+                log out
+            </button>
+            <form onSubmit={(e) => signUserIn(e)}
+                className="w-full h-screen flex flex-col gap-y-10 justify-center items-center">
+                <header className="text-xl font-semibold text-purple-800">
+                    Welcome Back!
+                </header>
+                <section className="w-full flex flex-col gap-y-6 justify-center items-center">
+                    <Email />
+                    {!login.email && 
+                    (<div className="w-[85%] -mt-[22px] text-left text-sm text-red-500">
+                        <p>Email is required</p>
+                    </div>)}
+                    <Password />
+                    {!login.password && 
+                    (<div className="w-[85%] -mt-[22px] text-left text-sm text-red-500">
+                        <p>Password is required</p>
+                    </div>)}
+                    <div className="w-[85%] -mt-[20px] text-right text-sm">
+                        <Link to={"signup"}
+                            className="">
+                            New? Sign Up
+                        </Link>
+                    </div>
+                </section>
+                <section className="w-full flex justify-center items-center">
+                    <LoginButton />
+                </section>
+            </form>
+            
+        </>
+    )
+}
