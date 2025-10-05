@@ -94,11 +94,11 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                                 <option value="">Female</option>
                             </select>
                         </div>
-                        <div className="flex items-center gap-x-2 w-34 md:w-[55%] h-9 border-0 border-gray-600 px-2 rounded">
+                        <div className="flex items-center gap-x-2 w-full md:w-[55%] h-9 border-0 border-gray-600 px-2 rounded">
                             <div>
                                 <IoIosCloudUpload color="black"/>
                             </div>
-                            <label htmlFor="Photo" className="text-sm">Upload photo</label>
+                            <label htmlFor="Photo" className="text-sm w-50">Upload photo</label>
                             <Input inputName={"Photo"} inputType={"file"} handlePhoto={handlePhoto} />
                             
                         </div>

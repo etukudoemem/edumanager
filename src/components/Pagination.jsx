@@ -1,3 +1,4 @@
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6"
 import { IoArrowBackCircleOutline, IoArrowForwardCircleOutline } from "react-icons/io5"
 
 export const Pagination = ({ currentPage, lastPage, handleNext, handlePrevious }) => {
@@ -11,9 +12,10 @@ export const Pagination = ({ currentPage, lastPage, handleNext, handlePrevious }
                         Prev
                     </button>
                 </div> */}
-                <button onClick={handlePrevious} className="cursor-pointer"
+                <button onClick={handlePrevious} className={`cursor-pointer bg-[#f0f0ff] p-1 shadow-lg rounded-full 
+                        text-purple-700 ${currentPage === 1 && "bg-gray-100 text-white"}`}
                     disabled={currentPage === 1 && true}>
-                    <IoArrowBackCircleOutline size={25}/>
+                    <FaChevronLeft />
                 </button>
                 {/* {
                     pageNumbers.map((number) =>
@@ -24,14 +26,15 @@ export const Pagination = ({ currentPage, lastPage, handleNext, handlePrevious }
                         </div>
                     )
                 } */}
-                <div className={`flex justify-center items-center w-5 h-5 border-0 border-gray-500 rounded text-sm bg-purple-500 text-white
-                        text-gray-700`}>
-                    <button>{currentPage}</button>
+                <div className={`flex justify-center items-center w-8 h-6 rounded text-sm bg-[#f0f0ff]
+                        text-purple-700 font-semibold`}>
+                    <button>{currentPage} / {lastPage}</button>
                 </div>
                     {/* className="flex justify-center items-center w-14 h-7 bg-gray-800 text-white rounded"> */}
-                    <button onClick={handleNext} className="cursor-pointer"
+                    <button onClick={handleNext} className={`cursor-pointer bg-[#f0f0ff] p-1 shadow-lg rounded-full 
+                        text-purple-700 ${currentPage === lastPage && "bg-gray-100 text-white"}`}
                         disabled={currentPage === lastPage && true}>
-                        <IoArrowForwardCircleOutline size={25}/>
+                        <FaChevronRight />
                     </button>
             </section>
         </>

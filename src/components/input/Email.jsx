@@ -13,7 +13,7 @@ export const Email = () => {
             return
         }
         if (!signup.email) {
-            setSignup({...login, email: true})
+            setSignup({...signup, email: true})
             return
         }
     }
@@ -25,7 +25,7 @@ export const Email = () => {
                 <TbMailFilled className="text-purple-800"/>
                 <input 
                     className="outline-none w-full md:w-1/2 "
-                    type="text" 
+                    type="email" 
                     name="email"
                     placeholder="Email"
                     onChange={() => handleOnChange()}

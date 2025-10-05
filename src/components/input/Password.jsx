@@ -13,7 +13,7 @@ export const Password = () => {
             return
         }
         if (!signup.password) {
-            setSignup({...login, password: true})
+            setSignup({...signup, password: true})
             return
         }
     }
