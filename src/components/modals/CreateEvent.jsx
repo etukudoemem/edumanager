@@ -34,9 +34,9 @@ export const CreateEvent = ({ table, type, setShow }) => {
         const date = formData.get("date")
         const description = formData.get("description")
         
-        // const { name } = e.target
-        // let n = formData.get(name)
-        // console.log(n)
+        const { name } = e.target
+        let n = formData.get([name])
+        console.log(n)
         if (!title) {
             setEventInput({...eventInput, title: false})
             return

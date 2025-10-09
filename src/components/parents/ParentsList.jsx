@@ -3,16 +3,14 @@ import { RiDeleteBin5Line } from "react-icons/ri"
 import { useNavigate } from "react-router-dom"
 import { usePaginate } from "../../hooks/usePaginate"
 import { Pagination } from "../../components/Pagination"
-import { studentsInfo } from "../../utils/studentsInfo"
 import { Modal } from "../modals/Modal"
-import { parentsInfo } from "../../utils/parentsInfo"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { creationContext } from "../../contexts/CreationProvider"
 
 export const ParentsList = () => {
-    const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(parentsInfo)
+    const { parent, setParent } = useContext(creationContext)
+    const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(parent)
     const navigate = useNavigate()
-    const [child, setChild] = useState([])
-    let students = []
     return (
         <>
             <main>
@@ -37,7 +35,7 @@ export const ParentsList = () => {
                                             <div className="flex gap-x-2 items-center">
                                                 <FaUserCircle size={35} className="text-[#f0f0ff] "/>
                                                 <div className="flex flex-col">
-                                                    <p className="font-semibold">{info.name}</p>
+                                                    <p className="font-semibold">{info.firstName} {info.lastName}</p>
                                                     <p>{info.email}</p>
                                                 </div>
                                             </div>

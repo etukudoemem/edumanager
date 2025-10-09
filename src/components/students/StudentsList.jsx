@@ -1,13 +1,14 @@
 import { FaEdit, FaUserCircle } from "react-icons/fa"
-import { RiDeleteBin5Line } from "react-icons/ri"
 import { useNavigate } from "react-router-dom"
 import { usePaginate } from "../../hooks/usePaginate"
 import { Pagination } from "../../components/Pagination"
-import { studentsInfo } from "../../utils/studentsInfo"
 import { Modal } from "../modals/Modal"
+import { useContext } from "react"
+import { creationContext } from "../../contexts/CreationProvider"
 
 export const StudentsList = () => {
-    const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(studentsInfo)
+    const { student } = useContext(creationContext)
+    const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(student)
     const navigate = useNavigate()
 
     return (
@@ -17,7 +18,7 @@ export const StudentsList = () => {
                     <thead>
                         <tr>
                             <th>Info</th>
-                            <th className="hidden lg:table-cell">Student ID</th>
+                            {/* <th className="hidden lg:table-cell">Student ID</th> */}
                             <th className="hidden md:table-cell">Grade</th>
                             {/* <th className="hidden md:table-cell">Classes</th> */}
                             <th className="hidden md:table-cell">Phone</th>
@@ -34,13 +35,13 @@ export const StudentsList = () => {
                                             <div className="flex gap-x-2 items-center">
                                                 <FaUserCircle size={35} className="text-[#f0f0ff] "/>
                                                 <div className="flex flex-col">
-                                                    <p className="font-semibold">{info.name}</p>
-                                                    <p>{info.class}</p>
+                                                    <p className="font-semibold">{info.firstName} {info.lastName}</p>
+                                                    <p>{info.classe}</p>
                                                 </div>
                                             </div>
                                         </span>
                                     </td>
-                                    <td className="hidden lg:table-cell">{info.id}</td>
+                                    {/* <td className="hidden lg:table-cell">{info.id}</td> */}
                                     <td className="hidden md:table-cell">{info.grade}</td>
                                     {/* <td className="hidden md:table-cell">{info.classes.join(', ')}</td> */}
                                     <td className="hidden md:table-cell">{info.phone}</td>

@@ -3,10 +3,13 @@ import { usePaginate } from "../hooks/usePaginate"
 import { Pagination } from "./Pagination"
 import { Modal } from "./modals/Modal"
 import { classesInfo } from "../utils/classesInfo"
+import { useContext } from "react"
+import { creationContext } from "../contexts/CreationProvider"
 
 export const ClassesList = () => {
     const navigate = useNavigate()
-    const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(classesInfo)
+    const { classes, setClasses } = useContext(creationContext)
+    const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(classes)
 
     return (
         <>
@@ -26,7 +29,7 @@ export const ClassesList = () => {
                             currentItems.map((info) =>
                                 <tr key={info.id}>
                                     <td onClick={() => navigate(`${info.id}`)}>
-                                        {info.class}
+                                        {info.classe}
                                     </td>
                                     <td className="hidden lg:table-cell">{info.capacity}</td>
                                     <td className="hidden md:table-cell">{info.grade}</td>

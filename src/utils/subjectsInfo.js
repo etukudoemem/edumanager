@@ -1,66 +1,66 @@
 export const subjectsInfo = [
     {
-        subject: "Math",
+        sub: "Math",
         teachers: ["John Doe", "Janet Doe", "Johnson Doe"]
     },
     {
-        subject: "Physics",
+        sub: "Physics",
         teachers: ["John Doe", "Janet Doe", "Johnson Doe"]
     },
     {
-        subject: "Literature",
+        sub: "Literature",
         teachers: ["John Doe", "Janet Doe", "Johnson Doe"]
     },
     {
-        subject: "Fine Arts",
+        sub: "Fine Arts",
         teachers: ["Janet Doe", "Johnson Doe"]
     },
     {
-        subject: "English",
+        sub: "English",
         teachers: ["John Doe", "Janet Doe", "Johnson Doe"]
     },
     {
-        subject: "Health Education",
+        sub: "Health Education",
         teachers: ["John Doe", "Joana Doe", "Johnson Doe"]
     },
     {
-        subject: "Chemistry",
+        sub: "Chemistry",
         teachers: ["John Doe", "Jane Doe", "Johnson Doe"]
     },
     {
-        subject: "Biology",
+        sub: "Biology",
         teachers: ["John Doe", "Joan Doe", "Johnson Doe"]
     },
     {
-        subject: "History",
+        sub: "History",
         teachers: ["John Doe", "Janet Doe"]
     },
     {
-        subject: "Music",
+        sub: "Music",
         teachers: ["Janine Doe"]
     },
     {
-        subject: "Geography",
+        sub: "Geography",
         teachers: ["John Doe", "Johnson Doe"]
     },
     {
-        subject: "Civic Education",
+        sub: "Civic Education",
         teachers: ["John Doe", "Janet Doe", "Johnson Doe"]
     },
     {
-        subject: "Government",
+        sub: "Government",
         teachers: ["Johnson Doe"]
     },
     {
-        subject: "Commerce",
+        sub: "Commerce",
         teachers: ["John Doe"]
     },
     {
-        subject: "Accounting",
+        sub: "Accounting",
         teachers: ["John Doe", "Janet Doe"]
     },
     {
-        subject: "Nutrition",
+        sub: "Nutrition",
         teachers: ["Janet Doe"]
     },
 ]

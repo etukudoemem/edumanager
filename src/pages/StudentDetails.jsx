@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { StudentInfoCard } from "../components/students/StudentInfoCard"
 import { studentsInfo } from "../utils/studentsInfo"
@@ -6,18 +6,20 @@ import { StudentShortcuts } from "../components/students/StudentShortcuts"
 import { AnnouncementsList } from "../components/announcement/AnnouncementsList"
 import { StudentSchedule } from "../components/students/StudentSchedule"
 import { usePaginate } from "../hooks/usePaginate"
+import { creationContext } from "../contexts/CreationProvider"
 
 
 export const StudentDetails = () => {
-    const [student, setStudent] = useState([])
-    const { items } = usePaginate(studentsInfo)
+    const [studentDetails, setStudentDetails] = useState([])
+    const { student } = useContext(creationContext)
+    const { items } = usePaginate(student)
     let { studentID } = useParams()
     studentID = parseInt(studentID)
 
     const getStudentInfo = () => {
         items.map((student) => {
             if (student.id === studentID) {
-                setStudent(student)
+                setStudentDetails(student)
             }
         })
     }
@@ -36,7 +38,7 @@ export const StudentDetails = () => {
                 <section className="w-full md:w-2/3 h-auto flex flex-col gap-y-4">
                     <div className="w-full h-75 xl:h-35 grid grid-cols-4 grid-rows-2 gap-4">
                         <div className="col-span-5 row-span-2 xl:col-span-2 xl:row-span-2 bg-purple-200 flex items-center">
-                            <StudentInfoCard  student={student}/>
+                            <StudentInfoCard  student={studentDetails}/>
                         </div>
                         <div className="col-start-1 col-end-3 xl:col-start-3 xl:col-end-4 xl:row-start-1 xl:row-end-2 bg-blue-100 py-3 px-4">
                             <h1 className="text-sm font-semibold">90%</h1>

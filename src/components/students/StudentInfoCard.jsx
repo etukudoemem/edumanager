@@ -11,7 +11,7 @@ export const StudentInfoCard = ({ student }) => {
                     <FaUserCircle size={95} color="white"/>
                 </div>
                 <div className="flex flex-col gap-y-2 w-[60%]">
-                    <h1 className="font-semibold">{student.name}</h1>
+                    <h1 className="font-semibold">{student.firstName} {student.lastName}</h1>
                     <p className="text-[10px]">
                         {student.about}
                     </p>

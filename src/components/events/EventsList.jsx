@@ -1,6 +1,5 @@
 import { FaEllipsis } from "react-icons/fa6"
 import { Event } from "./Event"
-import { events } from "../../utils/events"
 import { useContext } from "react"
 import { creationContext } from "../../contexts/CreationProvider"
 

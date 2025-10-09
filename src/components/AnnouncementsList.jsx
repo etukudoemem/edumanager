@@ -7,9 +7,12 @@ import { announcements } from "./announcement/announcements"
 import { usePaginate } from "../hooks/usePaginate"
 import { Modal } from "./modals/Modal"
 import { Pagination } from "./Pagination"
+import { useContext } from "react"
+import { creationContext } from "../contexts/CreationProvider"
 
 export const AnnouncementsList = () => {
-    const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(announcements)
+    const { announcement } = useContext(creationContext)
+    const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(announcement)
     const navigate = useNavigate()
     return (
         <>
@@ -40,7 +43,7 @@ export const AnnouncementsList = () => {
                                         </span>
                                     </td>
                                     <td className="hidden lg:table-cell">
-                                        {info.class}
+                                        {info.classe}
                                     </td>
                                     <td className="hidden md:table-cell">{info.date}</td>
                                     {/* <td className="hidden md:table-cell">{info.date}</td> */}

@@ -21,6 +21,11 @@ export const Announcements = () => {
                 <section>
                     <AnnouncementsList />
                 </section>
+                <div className="loading flex gap-x-1">
+                    <div className="loads w-2 h-2 bg-purple-700 rounded-full"></div>
+                    <div className="loads w-2 h-2 bg-purple-700 rounded-full"></div>
+                    <div className="loads w-2 h-2 bg-purple-700 rounded-full"></div>
+                </div>
             </main>
         </>
     )

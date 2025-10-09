@@ -3,9 +3,12 @@ import { usePaginate } from "../hooks/usePaginate"
 import { Pagination } from "../components/Pagination"
 import { Modal } from "./modals/Modal"
 import { subjectsInfo } from "../utils/subjectsInfo"
+import { useContext } from "react"
+import { creationContext } from "../contexts/CreationProvider"
 
 export const SubjectsList = () => {
-    const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(subjectsInfo)
+    const { subject, setSubject } = useContext(creationContext)
+    const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(subject)
     const navigate = useNavigate()
     return (
         <>
@@ -21,9 +24,9 @@ export const SubjectsList = () => {
                     <tbody>
                         {
                             currentItems.map((info) =>
-                                <tr key={info.subject}>
+                                <tr key={info.sub}>
                                     <td onClick={() => navigate(`${info.id}`)}>
-                                        {info.subject}
+                                        {info.sub}
                                     </td>
                                     <td className="hidden lg:table-cell">
                                         {(info.teachers).join(", ")}

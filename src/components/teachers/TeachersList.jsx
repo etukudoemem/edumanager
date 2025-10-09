@@ -7,10 +7,13 @@ import { useNavigate } from "react-router-dom"
 import { usePaginate } from "../../hooks/usePaginate"
 import { Pagination } from "../Pagination"
 import { Modal } from "../modals/Modal"
+import { useContext } from "react"
+import { creationContext } from "../../contexts/CreationProvider"
 
 export const TeachersList = () => {
     const navigate = useNavigate()
-    const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(teachersInfo)
+    const { teacher } = useContext(creationContext)
+    const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(teacher)
     // useEffect(() => {
     //     console.log(currentItems)
     // }, [currentPage])
@@ -39,15 +42,15 @@ export const TeachersList = () => {
                                             <div className="flex gap-x-2 items-center">
                                                 <FaUserCircle size={35} className="text-[#f0f0ff] "/>
                                                 <div className="flex flex-col">
-                                                    <p className="font-semibold">{info.name}</p>
+                                                    <p className="font-semibold">{info.firstName} {info.lastName}</p>
                                                     <p>{info.email}</p>
                                                 </div>
                                             </div>
                                         </span>
                                     </td>
                                     <td className="hidden lg:table-cell">{info.id}</td>
-                                    <td className="hidden md:table-cell">{info.subjects.join(', ')}</td>
-                                    <td className="hidden md:table-cell">{info.classes.join(', ')}</td>
+                                    <td className="hidden md:table-cell">{(info.subjects).join(", ")}</td>
+                                    <td className="hidden md:table-cell">{(info.classes).join(", ")}</td>
                                     <td className="hidden md:table-cell">{info.phone}</td>
                                     <td className="hidden lg:table-cell">{info.address}</td>
                                     <td className="">
