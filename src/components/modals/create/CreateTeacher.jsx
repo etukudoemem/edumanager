@@ -1,6 +1,6 @@
 import { FaBirthdayCake, FaPhone, FaUser, FaExclamationCircle, FaChevronRight, FaChevronDown } from "react-icons/fa"
 import { useContext, useState } from "react"
-import { creationContext } from "../../contexts/CreationProvider"
+import { creationContext } from "../../../contexts/CreationProvider"
 import { IoClose } from "react-icons/io5"
 import { SiGoogleclassroom } from "react-icons/si"
 import { FaAddressCard } from "react-icons/fa6"
@@ -9,7 +9,7 @@ import { IoIosCloudUpload, IoIosMail } from "react-icons/io"
 import { PiGenderMaleBold } from "react-icons/pi"
 // import { useState } from "react"
 let nextId = 0
-export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePhoto }) => {
+export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePhoto, teacherInfo }) => {
     const [view, setView] = useState({
         subjects: false,
         classes: false
@@ -32,7 +32,7 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
             about: true,
         })
     
-    const createTeacher = (e) => {
+    const createTeacher = (e, teacherId) => {
         e.preventDefault()
         const formData = new FormData(e.target)
         const firstName = formData.get("firstName")
@@ -85,9 +85,22 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
             return
         }
 
-        setTeacher(
-            [...teacher, {id: nextId++, firstName, lastName, subjects: [...subjectList], classes: [...classList], phone, email, address, birthday, gender, about}]
-        )
+        if (type === "create") {
+            setTeacher(
+                [...teacher, {id: nextId++, firstName, lastName, subjects: [...subjectList], 
+                    classes: [...classList], phone, email, address, birthday, gender, about}]
+            )
+        }
+
+        if (type == "edit") {
+            setTeacher(
+                teacher.map((t) => 
+                    t.id === teacherId ? {id: nextId++, firstName, lastName, 
+                        subjects: [...subjectList], classes: [...classList], 
+                        phone, email, address, birthday, gender, about} : t
+                )
+            )
+        }
         console.log(teacher)
     }
     
@@ -135,7 +148,11 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
 
     return (
         <>
-            <form onSubmit={(e) => createTeacher(e)}
+            <form onSubmit={(e) =>  { if (type === "create") {
+                    createTeacher(e)
+                } else {
+                    createTeacher(e, teacherInfo.id)
+                }}}
                 className="bg-white w-[90%] md:w-[65%] lg:w-[55%] xl:w-[45%] h-[90vh] md:h-[85vh] flex flex-col gap-y-3 items-center 
                 py-8 px-4 md:px-6 rounded-lg shadow-xl relative overflow-y-scroll">
                 <div className="w-full ">
@@ -144,9 +161,9 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                         <IoClose size={25}/>
                     </div>
                     <h2 className="my-4 font-medium">
-                        Create new {table}
+                        {type === "create" ? "Create new" : "Edit"} {table}
                     </h2>
-                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8">
+                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8 text-sm">
                         <div className={`flex items-center gap-x-2 w-full md:w-[48%] h-9 border-0 bg-purple-50 bg-purple-50 
                             border-gray-600 px-2 rounded ${!teacherInput.firstName && "border-red-500 border-2"}`}>
                             <div>
@@ -157,6 +174,7 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="firstName"
                                 className={`w-full outline-none`}
                                 placeholder="First name"
+                                defaultValue={type === "edit" ? teacherInfo.firstName : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             {/* <Input inputName={"First name"} inputType={"text"} /> */}
@@ -174,6 +192,7 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="lastName"
                                 className={`w-full outline-none`}
                                 placeholder="Last name"
+                                defaultValue={type === "edit" ? teacherInfo.lastName : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             {/* <Input inputName={"Last name"} inputType={"text"} /> */}
@@ -185,7 +204,8 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                             <div>
                                 <FaBookOpen color="black"/>
                             </div>
-                            <label htmlFor="subjects" className="text-sm" onClick={() => setView({...view, subjects: !view.subjects})}>Subject(s)</label>
+                            <label htmlFor="subjects" className="text-sm" 
+                                onClick={() => setView({...view, subjects: !view.subjects})}>Subject(s)</label>
                                 <div>
                                     {view.subjects ? <FaChevronDown size={12}/> : <FaChevronRight size={12}/>}
                                 </div>
@@ -306,7 +326,8 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                                 type="number" 
                                 name="phone"
                                 className={`w-full outline-none`}
-                                placeholder="Phone number"
+                                placeholder="Phone"
+                                defaultValue={type === "edit" ? teacherInfo.phone : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             {/* <Input inputName={"Phone"} inputType={"number"} /> */}
@@ -323,6 +344,7 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="email"
                                 className={`w-full outline-none`}
                                 placeholder="Email"
+                                defaultValue={type === "edit" ? teacherInfo.email : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             {/* <Input inputName={"Email"} inputType={"email"} /> */}
@@ -339,6 +361,7 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="address"
                                 className={`w-full outline-none`}
                                 placeholder="Address"
+                                defaultValue={type === "edit" ? teacherInfo.address : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             {/* <Input inputName={"Address"} inputType={"text"} /> */}
@@ -357,6 +380,7 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="birthday"
                                 className={`w-full outline-none`}
                                 placeholder="Birthday"
+                                defaultValue={type === "edit" ? teacherInfo.birthday : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             {/* <Input inputName={"Birthday"} inputType={"date"} /> */}
@@ -381,6 +405,7 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="about"
                                 className={`w-full outline-none`}
                                 placeholder="Describe teacher"
+                                defaultValue={type === "edit" ? teacherInfo.description : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             {/* <Input inputName={"Address"} inputType={"text"} /> */}
@@ -415,7 +440,7 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                         </div>}
                         <div className="flex items-center justify-center text-slate-50 text-sm w-full h-10 mt-4 bg-purple-700 rounded">
                             <button type="submit" className="w-full" >
-                                Create {table}
+                                {type === "create" ? "Create" : "Update"} {table}
                             </button>
                         </div>
                     </section>

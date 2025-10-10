@@ -55,8 +55,8 @@ export const TeachersList = () => {
                                     <td className="hidden lg:table-cell">{info.address}</td>
                                     <td className="">
                                         <div className="flex gap-x-5 text-xl text-purple-800 justify-end md:justify-start">
-                                            <Modal table="teacher" type="edit" />
-                                            <Modal table="teacher" type="delete" />
+                                            <Modal table="teacher" type="edit" teacherInfo={info} />
+                                            <Modal table="teacher" type="delete" teacherId={info.id} />
                                         </div>
                                     </td>
                                 </tr>    

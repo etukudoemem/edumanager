@@ -4,11 +4,12 @@ import { SiGoogleclassroom } from "react-icons/si"
 import { BsCalendarFill } from "react-icons/bs"
 import { FaExclamationCircle } from "react-icons/fa"
 import { useContext, useEffect, useState } from "react"
-import { creationContext } from "../../contexts/CreationProvider"
+import { creationContext } from "../../../contexts/CreationProvider"
 
 let nextId = 0
 
-export const CreateEvent = ({ table, type, setShow }) => {
+export const CreateEvent = ({ table, type, setShow, eventInfo }) => {
+    // console.log(eventInfo.id)
     const [eventInput, setEventInput] = useState({
         title: true,
         classe: true,
@@ -24,7 +25,7 @@ export const CreateEvent = ({ table, type, setShow }) => {
     }
     const {event, setEvent} = useContext(creationContext)
     
-    const createEvent = (e) => {
+    const createEvent = (e, eventId) => {
         e.preventDefault()
         const formData = new FormData(e.target)
         const title = formData.get("title")
@@ -34,9 +35,6 @@ export const CreateEvent = ({ table, type, setShow }) => {
         const date = formData.get("date")
         const description = formData.get("description")
         
-        const { name } = e.target
-        let n = formData.get([name])
-        console.log(n)
         if (!title) {
             setEventInput({...eventInput, title: false})
             return
@@ -58,19 +56,34 @@ export const CreateEvent = ({ table, type, setShow }) => {
             return
         }
 
-        setEvent(
-            [...event, {id: nextId++, title, description, classe, date, starts, ends}]
-        )
+        if (type === "create") {
+           setEvent(
+                [...event, {id: nextId++, title, description, classe, date, starts, ends}]
+            ) 
+            return
+        } 
+        
+        if (type === "edit") {
+           setEvent(
+                event.map((ev) => 
+                    ev.id === eventId ? {id: nextId, title, description, classe, date, starts, ends} : ev
+                )
+            ) 
+            return
+        } 
+
+        console.log(event)
     }
     
-
     // useEffect(() => {
     //     console.log(event)
     // }, [event])
 
     return (
         <>
-            <form onSubmit={(e) => createEvent(e)} 
+            <form onSubmit={(e) => {if (type === "create") {
+                        createEvent(e)
+                    } else {createEvent(e, eventInfo.id)}} }
                 className="bg-white w-[90%] md:w-[65%] lg:w-[55%] xl:w-[45%] h-auto flex flex-col gap-y-3 items-center 
                 py-8 px-4 md:px-6 rounded-lg shadow-xl relative overflow-y-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ">
                 <div className="w-full ">
@@ -79,9 +92,9 @@ export const CreateEvent = ({ table, type, setShow }) => {
                         <IoClose size={25}/>
                     </div>
                     <h2 className="my-4 font-medium">
-                        Create new {table}
+                        {type === "create" ? "Create new" : "Edit"} {table}
                     </h2>
-                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8">
+                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8 text-sm">
                         <div className={`flex items-center gap-x-2 w-full md:w-[49%] h-9 border-0 bg-purple-50 bg-purple-50 
                             border-gray-600 px-2 rounded ${!eventInput.title && "border-red-500 border-2"}`}>
                             <div>
@@ -92,6 +105,7 @@ export const CreateEvent = ({ table, type, setShow }) => {
                                 name="title" 
                                 className={`w-full outline-none`} 
                                 placeholder="Title"
+                                defaultValue={type === "edit" ? eventInfo.title : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -111,6 +125,7 @@ export const CreateEvent = ({ table, type, setShow }) => {
                             </div>
                             <label htmlFor="classe" className="text-sm">Class</label>
                             <select id="classe" name="classe" className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
+                                {type === "edit" && (<option selected hidden value={eventInfo.classe}>{eventInfo.classe}</option>)}
                                 <option value="1A">1A</option>
                                 <option value="2B">2B</option>
                                 <option value="3C">3C</option>
@@ -129,6 +144,7 @@ export const CreateEvent = ({ table, type, setShow }) => {
                                 type="time" 
                                 name="starts" 
                                 className="w-full outline-none" 
+                                defaultValue={type === "edit" ? eventInfo.starts : ""}
                                 onChange={(e) => handleOnChange(e)}
                             /> 
                             {/* <Input inputName={"starts"} inputType={"time"} handleInput={handleInput} table={table}/> */}
@@ -143,6 +159,7 @@ export const CreateEvent = ({ table, type, setShow }) => {
                                 type="time" 
                                 name="ends" 
                                 className="w-full outline-none"
+                                defaultValue={type === "edit" ? eventInfo.ends : ""}
                                 onChange={(e) => handleOnChange(e)}
                                 /> 
                             {/* <Input inputName={"ends"} inputType={"time"} handleInput={handleInput} table={table}/> */}
@@ -156,6 +173,7 @@ export const CreateEvent = ({ table, type, setShow }) => {
                                 type="date" 
                                 name="date" 
                                 className="w-full outline-none" 
+                                defaultValue={type === "edit" ? eventInfo.date : ""}
                                 onChange={(e) => handleOnChange(e)}
                                 />
                             {/* <Input inputName={"date"} inputType={"date"} handleInput={handleInput} table={table}/> */}
@@ -170,6 +188,7 @@ export const CreateEvent = ({ table, type, setShow }) => {
                                 name="description" 
                                 className="w-full outline-none" 
                                 placeholder="Description"
+                                defaultValue={type === "edit" ? eventInfo.description : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -180,7 +199,7 @@ export const CreateEvent = ({ table, type, setShow }) => {
                     <section className="mt-6">
                         <div className="flex items-center justify-center text-slate-50 text-sm w-full h-10 mt-4 bg-purple-700 rounded">
                             <button type="submit" className="w-full">
-                                Create {table}
+                                {type === "create" ? "Create" : "Update"} {table}
                             </button>
                         </div>
                     </section>

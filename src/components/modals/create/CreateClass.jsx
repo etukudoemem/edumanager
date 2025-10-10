@@ -1,5 +1,5 @@
 import { FaExclamationCircle, FaUser } from "react-icons/fa"
-import { Input } from "./Input"
+import { Input } from "../Input"
 import { IoClose } from "react-icons/io5"
 import { FaAddressCard } from "react-icons/fa6"
 import { MdBloodtype, MdOutlineReduceCapacity } from "react-icons/md"
@@ -7,11 +7,11 @@ import { IoIosCloudUpload, IoIosMail } from "react-icons/io"
 import { PiGenderMaleBold } from "react-icons/pi"
 import { SiGoogleclassroom } from "react-icons/si"
 import { useContext, useState } from "react"
-import { creationContext } from "../../contexts/CreationProvider"
+import { creationContext } from "../../../contexts/CreationProvider"
 // import { useState } from "react"
 
 let nextId = 0
-export const CreateClass = ({ table, type, setShow }) => {
+export const CreateClass = ({ table, type, setShow, classInfo }) => {
         const supervisors = ["Susan Gally", "Ben Vince", "Paula Davis", "Caroline Bennet", "Bret Sam"]
         const grades = ["1", "2", "3", "4", "5"]
         const clases = ["1A", "2B", "3C", "4B", "5A"]
@@ -20,7 +20,7 @@ export const CreateClass = ({ table, type, setShow }) => {
                 capacity: true
             })
         
-        const createClass = (e) => {
+        const createClass = (e, classId) => {
             e.preventDefault()
             const formData = new FormData(e.target)
             const supervisor = formData.get("supervisor")
@@ -33,10 +33,21 @@ export const CreateClass = ({ table, type, setShow }) => {
                 setClassInput({...classInput, capacity: false})
                 return
             }
-    
-            setClasses(
-                [...classes, {id: nextId++, supervisor, gender, grade, classe, capacity}]
-            )
+            if (type === "create") {
+                setClasses(
+                    [...classes, {id: nextId++, supervisor, gender, grade, classe, capacity}]
+                )
+                return
+            }
+
+            if (type === "edit") {
+                setClasses(
+                    classes.map((cl) => 
+                        cl.id === classId ? {id: nextId++, supervisor, gender, grade, classe, capacity} : cl
+                    )
+                )
+            }
+            
             console.log(classes)
         }
         
@@ -47,7 +58,9 @@ export const CreateClass = ({ table, type, setShow }) => {
 
     return (
         <>
-            <form onSubmit={(e) => createClass(e)}
+            <form onSubmit={(e) => {if (type === "create") {
+                        createClass(e)
+                    } else {createClass(e, classInfo.id)}}}
                 className="bg-white w-[90%] md:w-[65%] lg:w-[55%] xl:w-[45%] h-auto flex flex-col gap-y-3 items-center 
                 py-8 px-4 md:px-6 rounded-lg shadow-xl relative overflow-y-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ">
                 <div className="w-full ">
@@ -56,7 +69,7 @@ export const CreateClass = ({ table, type, setShow }) => {
                         <IoClose size={25}/>
                     </div>
                     <h2 className="my-4 font-medium">
-                        Create new {table}
+                        {type === "create" ? "Create new" : "Edit"} {table}
                     </h2>
                     <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8">
                         <div className="flex items-center gap-x-2 w-full md:w-[32%] h-9 border-0 bg-purple-50 border-gray-600 
@@ -65,10 +78,17 @@ export const CreateClass = ({ table, type, setShow }) => {
                                 <FaUser color="black"/>
                             </div>
                             <label htmlFor="supervisor" className="text-sm opacity-50">Supervisor</label>
-                            <select id="supervisor" name="supervisor" className="flex items-center justify-between text-sm w-[35%] md:w-[40%] outline-none">
+                            <select id="supervisor" name="supervisor" defaultValue={type === "edit" ? classInfo.supervisor : ""} className="flex items-center justify-between text-sm w-[35%] md:w-[40%] outline-none">
+                                {/* {type === "edit" ? (<option disabled selected value={classInfo.supervisor}>{classInfo.supervisor}</option>) : ""} */}
                             {
                                 supervisors.map((supervisor) => 
-                                    <option key={supervisor} value={supervisor}>{supervisor}</option>
+                                    <option 
+                                        key={supervisor} 
+                                        value={supervisor}
+                                        >
+                                            {supervisor}
+                                        
+                                    </option>
                                 )
                             }
                             </select>
@@ -79,8 +99,9 @@ export const CreateClass = ({ table, type, setShow }) => {
                                 <PiGenderMaleBold color="black"/>
                             </div>
                             <select id="gender" name="gender" className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
-                                <option value="">Male</option>
-                                <option value="">Female</option>
+                                {/* {type === "edit" ? (<option disabled selected value={classInfo.gender}>{classInfo.gender}</option>) : "Male"} */}
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
                             </select>
                         </div>
                         <div className="flex items-center gap-x-2 w-full md:w-[32%] h-9 border-0 bg-purple-50 border-gray-600 
@@ -89,10 +110,15 @@ export const CreateClass = ({ table, type, setShow }) => {
                                 <SiGoogleclassroom color="black"/>
                             </div>
                             <label htmlFor="Grade" className="text-sm">Grade</label>
-                            <select id="grade" name="grade" className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
+                            <select id="grade" name="grade" defaultValue={type === "edit" ? classInfo.grade : ""} className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
+                                {/* {type === "edit" ? (<option disabled selected value={classInfo.grade}>{classInfo.grade}</option>) : ""} */}
                                 {
-                                    grades.map((grade) => 
-                                        <option key={grade} value={grade}>{grade}</option>
+                                    grades.map((grade) =>
+                                        <option 
+                                            key={grade} 
+                                            value={grade}
+                                        >{grade}
+                                        </option>
                                     )
                                 }
                             </select>
@@ -103,10 +129,18 @@ export const CreateClass = ({ table, type, setShow }) => {
                                 <SiGoogleclassroom color="black"/>
                             </div>
                             <label htmlFor="Class" className="text-sm">Class</label>
-                            <select id="class" name="classe" className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
+                            <select id="class" name="classe" defaultValue={type === "edit" ? classInfo.classe : ""} className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
+                                {/* {type === "edit" ? (<option disabled selected value={classInfo.classe}>{classInfo.classe}</option>) : ""} */}
                                 {
                                     clases.map((cl) => 
-                                        <option key={cl} value={cl}>{cl}</option>
+                                        <option 
+                                            // disabled = {type === "edit" && true}
+                                            // selected = {type === "edit" && true}
+                                            key={cl} 
+                                            value={cl}
+                                            // defaultValue={type === "edit" ? classInfo.classe : ""}
+                                        >{cl}
+                                        </option>
                                     )
                                 }
                             </select>
@@ -122,6 +156,7 @@ export const CreateClass = ({ table, type, setShow }) => {
                                 name="capacity"
                                 className={`w-full outline-none`}
                                 placeholder="Capacity"
+                                defaultValue={type === "edit" ? classInfo.capacity : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             {/* <Input inputName={"First name"} inputType={"text"} /> */}
@@ -132,7 +167,7 @@ export const CreateClass = ({ table, type, setShow }) => {
                     <section className="mt-6">
                         <div className="flex items-center justify-center text-slate-50 text-sm w-full h-10 mt-4 bg-purple-700 rounded">
                             <button type="submit" className="w-full">
-                                Create {table}
+                                {type === "create" ? "Create" : "Update"} {table}
                             </button>
                         </div>
                     </section>

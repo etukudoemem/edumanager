@@ -27,9 +27,6 @@ export const TeacherDetails = () => {
         getTeacherInfo()
     }, [teacherID])
 
-    // const event = new Date(2025, 8, 17, 8, 30)
-    // console.log(event)
-
     return (
         <>
             <main className="w-full h-auto flex flex-col md:flex-row mt-2 gap-x-4 bg-slate-50">

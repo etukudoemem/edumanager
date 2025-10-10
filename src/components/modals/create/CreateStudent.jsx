@@ -1,16 +1,16 @@
 import { FaBirthdayCake, FaPhone, FaUser, FaExclamationCircle } from "react-icons/fa"
-import { Input } from "./Input"
+import { Input } from "../Input"
 import { IoClose } from "react-icons/io5"
 import { FaAddressCard } from "react-icons/fa6"
 import { IoIosCloudUpload, IoIosMail } from "react-icons/io"
 import { PiGenderMaleBold } from "react-icons/pi"
 import { SiGoogleclassroom } from "react-icons/si"
 import { useContext, useState } from "react"
-import { creationContext } from "../../contexts/CreationProvider"
+import { creationContext } from "../../../contexts/CreationProvider"
 // import { useState } from "react"
 
 let nextId = 0
-export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePhoto }) => {
+export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePhoto, studentInfo }) => {
     const { student, setStudent } = useContext(creationContext)
     const [studentInput, setStudentInput] = useState({
             firstName: true,
@@ -28,7 +28,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
             parentLastName: true,
         })
     
-    const createStudent = (e) => {
+    const createStudent = (e, studentId) => {
         e.preventDefault()
         const formData = new FormData(e.target)
         const firstName = formData.get("firstName")
@@ -85,9 +85,25 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
             return
         }
 
-        setStudent(
-            [...student, {id: nextId++, firstName, lastName, subjects, grade, classe, phone, email, address, birthday, gender, about, parentFirstName, parentLastName}]
-        )
+        if (type === "create") {
+            setStudent(
+            [...student, {id: nextId++, firstName, lastName, subjects, grade, 
+                classe, phone, email, address, birthday, gender, about, 
+                parentFirstName, parentLastName}]
+            )
+            return
+        }
+
+        if (type === "edit") {
+            setStudent(
+                student.map((s) => 
+                    s.id === studentId ? {id: nextId++, firstName, lastName, subjects, grade, 
+                    classe, phone, email, address, birthday, gender, about, 
+                    parentFirstName, parentLastName} : s
+                )
+            )
+            return
+        }
         console.log(student)
     }
         
@@ -99,7 +115,11 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
 
     return (
         <>
-            <form onSubmit={(e) => createStudent(e)}
+            <form onSubmit={(e) => { if (type === "create") {
+                    createStudent(e)
+                } else {
+                    createStudent(e, studentInfo.id)
+                } }}
                 className="bg-white w-[90%] md:w-[65%] lg:w-[55%] xl:w-[45%] h-[90vh] md:h-auto flex flex-col gap-y-3 items-center 
                 py-8 px-4 md:px-6 rounded-lg shadow-xl relative overflow-y-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ">
                 <div className="w-full ">
@@ -108,13 +128,13 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                         <IoClose size={25}/>
                     </div>
                     <h2 className="my-4 font-medium">
-                        Create new {table}
+                        {type === "create" ? "Create new" : "Edit"} {table}
                     </h2>
 
                     <div className="w-full mt-5 mb-3 text-sm">
                         <h2>Student's Details:</h2>
                     </div>
-                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8">
+                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8 text-sm">
                         
                         <div className={`flex items-center gap-x-2 w-full md:w-[32%] h-9 border-0 bg-purple-50 bg-purple-50 
                             border-gray-600 px-2 rounded ${!studentInput.firstName && "border-red-500 border-2"}`}>
@@ -126,6 +146,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="firstName"
                                 className={`w-full outline-none`}
                                 placeholder="First name"
+                                defaultValue={type ==="edit" ? studentInfo.firstName : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -142,6 +163,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="lastName"
                                 className={`w-full outline-none`}
                                 placeholder="Last name"
+                                defaultValue={type ==="edit" ? studentInfo.lastName : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -154,12 +176,16 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 <SiGoogleclassroom color="black"/>
                             </div>
                             <label htmlFor="Grade" className="text-sm">Grade</label>
-                            <select id="grade" name="grade" className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                            <select 
+                                id="grade" 
+                                name="grade" 
+                                defaultValue={type ==="edit" ? studentInfo.grade : ""} 
+                                className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
                             </select>
                         </div>
                         <div className="flex items-center gap-x-2 w-full md:w-[32%] h-9 border-0 bg-purple-50 border-gray-600 
@@ -168,7 +194,11 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 <SiGoogleclassroom color="black"/>
                             </div>
                             <label htmlFor="Class" className="text-sm">Class</label>
-                            <select id="Class" name="classe" className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
+                            <select 
+                                id="Class" 
+                                name="classe" 
+                                defaultValue={type ==="edit" ? studentInfo.classe : ""}
+                                className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
                                 <option value="1A">1A</option>
                                 <option value="2B">2B</option>
                                 <option value="3C">3C</option>
@@ -181,7 +211,11 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                             <div>
                                 <PiGenderMaleBold color="black"/>
                             </div>
-                            <select id="gender" name="gender" className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
+                            <select 
+                                id="gender" 
+                                name="gender" 
+                                defaultValue={type ==="edit" ? studentInfo.gender : ""}
+                                className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
@@ -196,6 +230,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="phone"
                                 className={`w-full outline-none`}
                                 placeholder="Phone"
+                                defaultValue={type ==="edit" ? studentInfo.phone : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -212,6 +247,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="email"
                                 className={`w-full outline-none`}
                                 placeholder="Email"
+                                defaultValue={type ==="edit" ? studentInfo.email : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -229,6 +265,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="address"
                                 className={`w-full outline-none`}
                                 placeholder="Address"
+                                defaultValue={type ==="edit" ? studentInfo.address : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -246,6 +283,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="birthday"
                                 className={`w-full outline-none`}
                                 placeholder="Birthday"
+                                defaultValue={type ==="edit" ? studentInfo.birthday : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             {/* <Input inputName={"Birthday"} inputType={"date"} /> */}
@@ -260,6 +298,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="about"
                                 className="w-full outline-none"
                                 placeholder="About student"
+                                defaultValue={type ==="edit" ? studentInfo.about : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -298,7 +337,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                     <div className="w-full mt-5 mb-3 text-sm">
                         <h2>Parent's Details:</h2>
                     </div>
-                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8">
+                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8 text-sm">
                         
                         <div className={`flex items-center gap-x-2 w-full md:w-[49%] h-9 border-0 bg-purple-50 bg-purple-50 
                             border-gray-600 px-2 rounded ${!studentInput.parentFirstName && "border-red-500 border-2"}`}>
@@ -310,6 +349,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="parentFirstName"
                                 className={`w-full outline-none`}
                                 placeholder="First name"
+                                defaultValue={type ==="edit" ? studentInfo.parentFirstName : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -326,6 +366,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="parentLastName"
                                 className={`w-full outline-none`}
                                 placeholder="Last name"
+                                defaultValue={type ==="edit" ? studentInfo.parentLastName : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -336,7 +377,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                     <section className="mt-6">
                         <div className="flex items-center justify-center text-slate-50 text-sm w-full h-10 mt-4 bg-purple-700 rounded">
                             <button type="submit" className="w-full">
-                                Create {table}
+                                {type === "create" ? "Create" : "Update"} {table}
                             </button>
                         </div>
                     </section>

@@ -48,8 +48,8 @@ export const StudentsList = () => {
                                     <td className="hidden lg:table-cell">{info.address}</td>
                                     <td className="">
                                         <div className="flex gap-x-5 text-xl text-purple-800 justify-end md:justify-start">
-                                            <Modal table="student" type="edit" />
-                                            <Modal table="student" type="delete" />
+                                            <Modal table="student" type="edit" studentInfo={info} />
+                                            <Modal table="student" type="delete" studentId={info.id} />
                                         </div>
                                     </td>
                                 </tr>    

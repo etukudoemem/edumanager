@@ -16,7 +16,7 @@ export const SubjectsList = () => {
                 <table className="w-full border-collapse mx-auto">
                     <thead>
                         <tr>
-                            <th>Info</th>
+                            <th>Subject</th>
                             <th className="hidden md:table-cell">Teachers</th>
                             <th>Actions</th> 
                         </tr>
@@ -25,7 +25,7 @@ export const SubjectsList = () => {
                         {
                             currentItems.map((info) =>
                                 <tr key={info.sub}>
-                                    <td onClick={() => navigate(`${info.id}`)}>
+                                    <td onClick={() => navigate(`${info.id}`)} className="font-semibold">
                                         {info.sub}
                                     </td>
                                     <td className="hidden lg:table-cell">
@@ -37,8 +37,8 @@ export const SubjectsList = () => {
                                     {/* <td className="hidden lg:table-cell">{(info.teachers).join(", ")}</td> */}
                                     <td className="">
                                         <div className="flex gap-x-5 text-xl text-purple-800 justify-end md:justify-start">
-                                            <Modal table="subject" type="edit" />
-                                            <Modal table="subject" type="delete" />
+                                            <Modal table="subject" type="edit" subjectInfo={info} />
+                                            <Modal table="subject" type="delete" subjectId={info.id}/>
                                         </div>
                                     </td>
                                 </tr>    

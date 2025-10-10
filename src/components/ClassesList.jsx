@@ -36,8 +36,8 @@ export const ClassesList = () => {
                                     <td className="hidden md:table-cell">{info.supervisor}</td>
                                     <td className="">
                                         <div className="flex gap-x-5 text-xl text-purple-800 justify-end md:justify-start">
-                                            <Modal table="class" type="edit" />
-                                            <Modal table="class" type="delete" />
+                                            <Modal table="class" type="edit" classInfo={info} />
+                                            <Modal table="class" type="delete" classId={info.id} />
                                         </div>
                                     </td>
                                 </tr>    

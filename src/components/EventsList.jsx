@@ -19,12 +19,12 @@ export const EventsList = () => {
                 <table className="w-full border-collapse mx-auto">
                     <thead>
                         <tr>
-                            <th>Title</th>
+                            <th>Event</th>
                             <th className="hidden lg:table-cell">Class</th>
                             <th className="hidden md:table-cell">Date</th>
                             {/* <th className="hidden md:table-cell">Classes</th> */}
-                            <th className="hidden md:table-cell">Start Time</th>
-                            <th className="hidden lg:table-cell">End Time</th>
+                            <th className="hidden md:table-cell">Starts</th>
+                            <th className="hidden lg:table-cell">Ends</th>
                             <th>Actions</th> 
                         </tr>
                     </thead>
@@ -33,7 +33,7 @@ export const EventsList = () => {
                             currentItems.map((info) =>
                                 <tr key={info.id}>
                                     <td onClick={() => navigate(`${info.id}`)}>
-                                        <p className="">{info.title}</p>
+                                        <p className="font-semibold">{info.title}</p>
                                     </td>
                                     <td className="hidden lg:table-cell">
                                         {info.classe}
@@ -41,11 +41,11 @@ export const EventsList = () => {
                                     <td className="hidden md:table-cell">{info.date}</td>
                                     {/* <td className="hidden md:table-cell">{info.classes.join(', ')}</td> */}
                                     <td className="hidden md:table-cell">{info.starts}</td>
-                                    <td className="hidden lg:table-cell">{info.ends}</td>
+                                    <td className="hidden lg:table-cell">{(info.ends)}</td>
                                     <td className="">
                                         <div className="flex gap-x-5 text-xl text-purple-800 justify-end md:justify-start">
-                                            <Modal table="event" type="edit" />
-                                            <Modal table="event" type="delete" />
+                                            <Modal table="event" type="edit" eventInfo={info} />
+                                            <Modal table="event" type="delete" eventId={info.id} />
                                         </div>
                                     </td>
                                 </tr>    

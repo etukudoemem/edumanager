@@ -1,5 +1,5 @@
 import { FaBirthdayCake, FaMinus, FaPhone, FaPlus, FaUser } from "react-icons/fa"
-import { Input } from "./Input"
+
 import { IoClose } from "react-icons/io5"
 import { FaAddressCard } from "react-icons/fa6"
 import { MdBloodtype } from "react-icons/md"
@@ -7,7 +7,8 @@ import { IoIosCloudUpload, IoIosMail } from "react-icons/io"
 import { PiGenderMaleBold } from "react-icons/pi"
 import { useContext, useState } from "react"
 import { RiDeleteBin5Line } from "react-icons/ri"
-import { creationContext } from "../../contexts/CreationProvider"
+import { creationContext } from "../../../contexts/CreationProvider"
+// import { creationContext } from "../../contexts/CreationProvider"
 // import { useState } from "react"
 
 let nextId = 0

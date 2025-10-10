@@ -1,4 +1,4 @@
-import { Input } from "./Input"
+import { Input } from "../Input"
 import { IoClose, IoTime } from "react-icons/io5"
 import { FaAddressCard } from "react-icons/fa6"
 import { MdBloodtype, MdDateRange, MdDescription } from "react-icons/md"
@@ -6,12 +6,13 @@ import { SiGoogleclassroom } from "react-icons/si"
 import { BsCalendarFill } from "react-icons/bs"
 import { TbSpeakerphone } from "react-icons/tb"
 import { useContext , useState} from "react"
-import { creationContext } from "../../contexts/CreationProvider"
+import { creationContext } from "../../../contexts/CreationProvider"
 import { FaExclamationCircle } from "react-icons/fa"
 // import { useState } from "react"
 
 let nextId = 0
-export const CreateAnnouncement = ({ table, type, setShow }) => {
+export const CreateAnnouncement = ({ table, type, setShow, announcementInfo }) => {
+    console.log(announcementInfo)
     const { announcement, setAnnouncement } = useContext(creationContext)
         const [announcementInput, setAnnouncementInput] = useState({
                 title: true,
@@ -20,7 +21,7 @@ export const CreateAnnouncement = ({ table, type, setShow }) => {
                 class: true,
             })
         
-        const createAnnouncement = (e) => {
+        const createAnnouncement = (e, announcementId) => {
             e.preventDefault()
             const formData = new FormData(e.target)
             const title = formData.get("title")
@@ -48,13 +49,23 @@ export const CreateAnnouncement = ({ table, type, setShow }) => {
                 return
             }
     
-            setAnnouncement(
-                [...announcement, {id: nextId++, title, date, classe, details}]
-            )
+            if (type === "create") {
+                setAnnouncement(
+                    [...announcement, {id: nextId++, title, date, classe, details}]
+                )
+                return
+            }
+            if (type === "edit") {
+                setAnnouncement(
+                    announcement.map((ann) => 
+                        ann.id === announcementId ? {id: nextId, title, date, classe, details} : ann
+                    )
+                )
+                return
+            }
             console.log(announcement)
         }
             
-        
         const handleOnChange = (e) => {
             const { name } = e.target
             setAnnouncementInput({...announcementInput, [name]: true})
@@ -62,7 +73,11 @@ export const CreateAnnouncement = ({ table, type, setShow }) => {
 
     return (
         <>
-            <form onSubmit={(e) => createAnnouncement(e)}
+            <form onSubmit={(e) => { if (type==="create") {
+                createAnnouncement(e)
+            } else {
+                createAnnouncement(e, announcementInfo.id)
+            } }}
                 className="bg-white w-[90%] md:w-[65%] lg:w-[55%] xl:w-[45%] h-auto flex flex-col gap-y-3 items-center 
                 py-8 px-4 md:px-6 rounded-lg shadow-xl relative overflow-y-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ">
                 <div className="w-full ">
@@ -71,9 +86,9 @@ export const CreateAnnouncement = ({ table, type, setShow }) => {
                         <IoClose size={25}/>
                     </div>
                     <h2 className="my-4 font-medium">
-                        Create new {table}
+                        {type === "create" ? "Create new" : "Edit"} {table}
                     </h2>
-                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8">
+                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8 text-sm">
                         <div className={`flex items-center gap-x-2 w-full md:w-[49%] h-9 border-0 bg-purple-50 bg-purple-50 
                             border-gray-600 px-2 rounded ${!announcementInput.title && "border-red-500 border-2"}`}>
                             <div>
@@ -84,6 +99,7 @@ export const CreateAnnouncement = ({ table, type, setShow }) => {
                                 name="title"
                                 className={`w-full outline-none`}
                                 placeholder="Title"
+                                defaultValue={type ==="edit" ? announcementInfo.title : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -98,7 +114,7 @@ export const CreateAnnouncement = ({ table, type, setShow }) => {
                             </div>
                             <label htmlFor="class" className="text-sm">Class</label>
                             <select id="class" name="classe" className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
-                                <option value="All">All</option>
+                                {type === "edit" ? (<option disabled selected hidden value={announcementInfo.classe}>{announcementInfo.classe}</option>) : ""}
                                 <option value="1A">1A</option>
                                 <option value="2B">2B</option>
                                 <option value="3C">3C</option>
@@ -115,6 +131,7 @@ export const CreateAnnouncement = ({ table, type, setShow }) => {
                                 type="date" 
                                 name="date"
                                 className={`w-full outline-none`}
+                                defaultValue={type ==="edit" ? announcementInfo.date : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             {/* <Input inputName={"Date"} inputType={"date"} /> */}
@@ -129,6 +146,7 @@ export const CreateAnnouncement = ({ table, type, setShow }) => {
                                 name="details"
                                 className={`w-full outline-none`}
                                 placeholder="Details"
+                                defaultValue={type ==="edit" ? announcementInfo.details : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -139,7 +157,7 @@ export const CreateAnnouncement = ({ table, type, setShow }) => {
                     <section className="mt-6">
                         <div className="flex items-center justify-center text-slate-50 text-sm w-full h-10 mt-4 bg-purple-700 rounded">
                             <button type="submit" className="w-full">
-                                Create {table}
+                                {type === "create" ? "Create" : "Update"} {table}
                             </button>
                         </div>
                     </section>

@@ -6,12 +6,14 @@ export const studentsInfo = [
         email: "johndoe@gmail.com",
         subjects: "Maths",
         grade: 4,
-        classe: "4C",
+        classe: "4B",
         phone: 123456789,
         parents: "Johan Doe",
         address: "123 Main St., Brooklyn, USA",
         birthday: "2018-08-12",
         about: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laudantium veritatis.",
+        parentFirstName: "Janet",
+        parentLastName: "Doe"
         // details: [
         //     {attendance: "90%"},
         //     {branches: 2},

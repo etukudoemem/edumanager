@@ -1,10 +1,9 @@
-import { BsExclamationTriangle, BsExclamationTriangleFill } from "react-icons/bs"
-import { IoClose } from "react-icons/io5"
+import { BsExclamationTriangleFill } from "react-icons/bs"
 
-export const DeleteModal = ({ table, setShow }) => {
-    
+export const DeleteModal = ({ table, setShow, deleteItem }) => {
+
     return (
-        <section className="relative bg-white w-[90%] md:w-[25%] h-60 flex flex-col gap-y-3 items-center justify-center p-6 rounded-lg shadow-xl">
+        <section className="relative bg-white w-[90%] md:w-[45%] lg:w-[35%] xl:w-[30%] h-60 flex flex-col gap-y-3 items-center justify-center p-6 rounded-lg shadow-xl">
             {/* <div onClick={() => setShow(false)}
                 className="absolute top-2 right-2">
                 <IoClose size={22}/>
@@ -27,7 +26,8 @@ export const DeleteModal = ({ table, setShow }) => {
                     className="w-[48%] px-4 py-3 bg-gray-200 text-slate-600 text-sm font-bold rounded cursor-pointer">
                     No
                 </button>
-                <button className="w-[48%] px-4 py-3 bg-red-600 text-white text-sm font-bold rounded cursor-pointer">
+                <button type="button" onClick={deleteItem}
+                    className="w-[48%] px-4 py-3 bg-red-600 text-white text-sm font-bold rounded cursor-pointer">
                     Yes
                 </button>
             </div>

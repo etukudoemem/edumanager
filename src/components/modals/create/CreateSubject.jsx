@@ -1,12 +1,12 @@
 import { FaChevronRight, FaChevronDown, FaBookOpen, FaPhone, FaUser } from "react-icons/fa"
 import { IoClose } from "react-icons/io5"
 import { useContext, useState } from "react"
-import { creationContext } from "../../contexts/CreationProvider"
+import { creationContext } from "../../../contexts/CreationProvider"
 import { GiTeacher } from "react-icons/gi"
 // import { useState } from "react"
 
 let nextId = 0
-export const CreateSubject = ({ table, type, setShow }) => {
+export const CreateSubject = ({ table, type, setShow, subjectInfo }) => {
     const [view, setView] = useState(false)
     const teachers = ["George Sidwell", "Jane Foster", "Ann Mitchel", "Gabby Jean", "Dan Maxwell"]
     const [teachersList, setTeachersList] = useState([])
@@ -17,7 +17,7 @@ export const CreateSubject = ({ table, type, setShow }) => {
             subject: true
         })
     
-    const createSubject = (e) => {
+    const createSubject = (e, subjectId) => {
         e.preventDefault()
         const formData = new FormData(e.target)
         const sub = formData.get("subject")
@@ -30,9 +30,21 @@ export const CreateSubject = ({ table, type, setShow }) => {
             setSubjectInput({...subjectInput, teachers: false})
             return
         }
-        setSubject(
-            [...subject, {id: nextId++, sub, teachers: [...teachersList]}]
-        )
+        
+        if (type === "create") {
+                setSubject(
+                [...subject, {id: nextId++, sub, teachers: [...teachersList]}]
+            )
+        }
+
+        if (type === "edit") {
+            setSubject(
+                subject.map((s) => 
+                    s.id === subjectId ? {id: nextId++, sub, teachers: [...teachersList]} : s
+                )
+            )
+            return
+        }
         console.log(subject)
     }
     
@@ -57,7 +69,11 @@ export const CreateSubject = ({ table, type, setShow }) => {
 
     return (
         <>
-            <form onSubmit={(e) => createSubject(e)}
+            <form onSubmit={(e) => { if (type === "create") {
+                        createSubject(e)
+                    } else {
+                        createSubject(e, subjectInfo.id)
+                    } }}
                 className="bg-white w-[90%] md:w-[65%] lg:w-[55%] xl:w-[45%] h-auto flex flex-col gap-y-3 items-center 
                 py-8 px-4 md:px-6 rounded-lg shadow-xl relative">
                 <div className="w-full ">
@@ -66,9 +82,9 @@ export const CreateSubject = ({ table, type, setShow }) => {
                         <IoClose size={25}/>
                     </div>
                     <h2 className="my-4 font-medium">
-                        Create new {table}
+                        {type === "create" ? "Create new" : "Edit"} {table}
                     </h2>
-                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8">
+                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8 text-sm">
                         <div className={`flex items-center gap-x-2 w-full md:w-[48%] h-9 border-0 bg-purple-50 bg-purple-50 
                             border-gray-600 px-2 rounded ${!subjectInput.subject && "border-red-500 border-2"}`}>
                             <div>
@@ -79,6 +95,7 @@ export const CreateSubject = ({ table, type, setShow }) => {
                                 name="subject"
                                 className={`w-full outline-none`}
                                 placeholder="Subject"
+                                defaultValue={type === "edit" ? subjectInfo.sub : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                         </div>
@@ -97,8 +114,14 @@ export const CreateSubject = ({ table, type, setShow }) => {
                                 {
                                     teachers.map((teacher) => 
                                         <div key={teacher} className="flex gap-x-1">
-                                            <input className="px-2 py-1" type="checkbox" onChange={handleTeacher} 
-                                            id="teacher" name="teacher" value={teacher} />
+                                            <input 
+                                                className="px-2 py-1" 
+                                                type="checkbox" 
+                                                onChange={handleTeacher} 
+                                                id="teacher" 
+                                                name="teacher" 
+                                                value={teacher}
+                                            />
                                             <label htmlFor="teacher">{teacher}</label>
                                         </div>
                                     )
@@ -114,7 +137,7 @@ export const CreateSubject = ({ table, type, setShow }) => {
                         </div>
                         <div className="flex items-center justify-center text-slate-50 text-sm w-full h-10 mt-4 bg-purple-700 rounded">
                             <button type="submit" className="w-full">
-                                Create {table}
+                                {type === "create" ? "Create" : "Update"} {table}
                             </button>
                         </div>
                     </section>

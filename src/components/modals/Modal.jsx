@@ -5,15 +5,71 @@ import { MdSort } from "react-icons/md"
 import { IoMdAdd } from "react-icons/io"
 import { useState } from "react"
 import { DeleteModal } from "./DeleteModal"
-import { CreateModal } from "./CreateModal"
+import { CreateModal } from "./create/CreateModal"
+import { EditModal } from "./edit/EditModal"
 import { IoClose } from "react-icons/io5"
+import { useContext } from "react"
+import { creationContext } from "../../contexts/CreationProvider"
 
-export const Modal = ({ table, type }) => {
+export const Modal = (
+    { table, type, teacherId, studentId, subjectId, 
+        parentId, eventId, classId, announcementId, 
+        eventInfo, classInfo, announcementInfo, subjectInfo,
+        studentInfo, teacherInfo,
+    }) => {
+
+    const { teacher, setTeacher, student, setStudent, 
+            subject, setSubject, parent, setParent, 
+            classes, setClasses, event, setEvent, 
+            announcement, setAnnouncement} = useContext(creationContext)
 
     const [show, setShow] = useState(false)
     // const size = type === "filter" | "sort" | "create" ? "w-7 h-7" : "w-9 h-9"
     // const bgColor = type === "filter" | "sort" | "create" ? "bg-purple-800" : "bg-purple-100"
     // const color = type === "filter" | "sort" | "create" ? "text-white" : "text-purple-800"
+    const deleteItem = () => {
+        if (table === "teacher") {
+            setTeacher(teacher.filter((t) => t.id !== teacherId))
+            return
+        }
+        if (table === "student") {
+            setStudent(student.filter((s) => s.id !== studentId))
+            return
+        }
+        if (table === "parent") {
+            setParent(parent.filter((p) => p.id !== parentId))
+            return
+        }
+        if (table === "subject") {
+            setSubject(subject.filter((s) => s.id !== subjectId))
+            return
+        }
+        if (table === "class") {
+            setClasses(classes.filter((s) => s.id !== classId))
+            return
+        }
+        if (table === "event") {
+            setEvent(event.filter((s) => s.id !== eventId))
+            return
+        }
+        if (table === "announcement") {
+            setAnnouncement(announcement.filter((s) => s.id !== announcementId))
+            return
+        }
+    }
+
+    const buttons = () => {
+        return (
+           <div className="flex gap-x-4">
+                <button>
+                    Cancel
+                </button>
+                <button>
+                    Save
+                </button>
+            </div>
+        )
+    }
 
     const popUp = () => {
         return (
@@ -21,21 +77,38 @@ export const Modal = ({ table, type }) => {
                 <section className="w-screen h-screen bg-black/40 fixed top-0 right-0 flex justify-center items-center
                     text-gray-700">
                     {
-                        <CreateModal table={table} setShow={setShow} />
+                        <CreateModal 
+                            table={table} 
+                            type={type} 
+                            setShow={setShow} 
+                            eventInfo={eventInfo} 
+                            classInfo={classInfo}
+                            announcementInfo={announcementInfo}
+                            subjectInfo={subjectInfo}
+                            studentInfo={studentInfo}
+                            teacherInfo={teacherInfo}
+                        />
                     }
                 </section>
             ) : type === "delete" ? (
                 <section className="w-screen h-screen bg-black/40 fixed top-0 right-0 flex justify-center items-center
                     text-gray-700">
                     {
-                        <DeleteModal table={table} setShow={setShow} />
+                        <DeleteModal table={table} setShow={setShow} deleteItem={deleteItem} />
                     }
                 </section>
             ) : type === "create" ? (
                 <section className="w-screen h-screen bg-black/40 fixed top-0 right-0 flex justify-center items-center
                     text-gray-700">
                     {
-                        <CreateModal table={table} type={type} setShow={setShow} />
+                        <CreateModal 
+                            table={table} 
+                            type={type} 
+                            setShow={setShow}
+                            // eventInfo={eventInfo} 
+                            // classInfo={classInfo}
+                            // announcementInfo={announcementInfo} 
+                        />
                     }
                 </section>
             ) : type === "filter" ? (
@@ -80,7 +153,7 @@ export const Modal = ({ table, type }) => {
                 show && popUp()
             }
             <button onClick={() => setShow(true)} title={`${type}`}
-                className={`w-9 h-9 bg-[#f0f0ff] text-purple-700 rounded-full flex justify-center items-center cursor-pointer`}>
+                className={`w-9 h-9 bg-[#f0f0ff] text-purple-700 rounded-full flex justify-center items-center cursor-pointer shadow-sm`}>
                 {Icon}
             </button>
         </>

@@ -20,7 +20,7 @@ export const AnnouncementsList = () => {
                 <table className="w-full border-collapse mx-auto">
                     <thead>
                         <tr>
-                            <th>Title</th>
+                            <th>Announcement</th>
                             <th className="hidden lg:table-cell">Class</th>
                             <th className="hidden md:table-cell">Date</th>
                             {/* <th className="hidden md:table-cell">Classes</th> */}
@@ -51,8 +51,8 @@ export const AnnouncementsList = () => {
                                     {/* <td className="hidden lg:table-cell">{info.endTime}</td> */}
                                     <td className="">
                                         <div className="flex gap-x-5 text-xl text-purple-800 justify-end md:justify-start">
-                                            <Modal table="announcement" type="edit" />
-                                            <Modal table="announcement" type="delete" />
+                                            <Modal table="announcement" type="edit" announcementInfo={info} />
+                                            <Modal table="announcement" type="delete" announcementId={info.id} />
                                         </div>
                                     </td>
                                 </tr>    

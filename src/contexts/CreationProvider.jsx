@@ -19,7 +19,6 @@ export const CreationProvider = ({ children }) => {
     const [subject, setSubject] = useState(subjectsInfo)
     const [classes, setClasses] = useState(classesInfo)
 
-
     const creationValues = {
         event,
         setEvent,
