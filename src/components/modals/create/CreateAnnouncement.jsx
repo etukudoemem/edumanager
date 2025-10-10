@@ -29,9 +29,7 @@ export const CreateAnnouncement = ({ table, type, setShow, announcementInfo }) =
             const details = formData.get("details")
             const classe = formData.get("classe")
             
-            // const { name } = e.target
-            // let n = formData.get([name])
-            // console.log(n)
+            
             if (!title) {
                 setAnnouncementInput({...announcementInput, title: false})
                 return
@@ -57,8 +55,8 @@ export const CreateAnnouncement = ({ table, type, setShow, announcementInfo }) =
             }
             if (type === "edit") {
                 setAnnouncement(
-                    announcement.map((ann) => 
-                        ann.id === announcementId ? {id: nextId, title, date, classe, details} : ann
+                    announcement.map((a) => 
+                        a.id === announcementId ? {id: nextId++, title, date, classe, details} : a
                     )
                 )
                 return
@@ -73,7 +71,7 @@ export const CreateAnnouncement = ({ table, type, setShow, announcementInfo }) =
 
     return (
         <>
-            <form onSubmit={(e) => { if (type==="create") {
+            <form onSubmit={(e) => { if (type === "create") {
                 createAnnouncement(e)
             } else {
                 createAnnouncement(e, announcementInfo.id)
@@ -113,8 +111,9 @@ export const CreateAnnouncement = ({ table, type, setShow, announcementInfo }) =
                                 <SiGoogleclassroom color="black"/>
                             </div>
                             <label htmlFor="class" className="text-sm">Class</label>
-                            <select id="class" name="classe" className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
-                                {type === "edit" ? (<option disabled selected hidden value={announcementInfo.classe}>{announcementInfo.classe}</option>) : ""}
+                            <select id="class" name="classe" defaultValue={type === "edit" ? announcementInfo.classe : ""} 
+                                className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
+                                
                                 <option value="1A">1A</option>
                                 <option value="2B">2B</option>
                                 <option value="3C">3C</option>
