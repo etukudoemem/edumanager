@@ -1,8 +1,11 @@
 import { Search } from "../components/Search"
 import { ClassesList } from "../components/ClassesList"
 import { Modal } from "../components/modals/Modal"
+import { useContext } from "react"
+import { authContext } from "../contexts/AuthProvider"
 
 export const Classes = () => {
+    const { userDetails } = useContext(authContext)
 
     return (
         <>
@@ -13,9 +16,9 @@ export const Classes = () => {
                         <div className="hidden md:block">
                             <Search />
                         </div>
-                        <Modal table="class" type="filter" />
-                        <Modal table="class" type="sort" />
-                        <Modal table="class" type="create" />
+                        {/* <Modal table="class" type="filter" />
+                        <Modal table="class" type="sort" /> */}
+                        {userDetails.role === "Admin" && <Modal table="announcement" type="create" />}
                     </div>
                 </section>
                 <section>

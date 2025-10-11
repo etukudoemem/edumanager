@@ -10,6 +10,7 @@ import { RiParentFill } from "react-icons/ri"
 import { SiGoogleclassroom } from "react-icons/si"
 import { TbSpeakerphone } from "react-icons/tb"
 import { NavLink } from "react-router-dom"
+import { Modal } from "../modals/Modal"
 
 export const MenuItems = () => {
 
@@ -57,21 +58,21 @@ export const MenuItems = () => {
     ]
 
     const otherMenu =  [
-                {
-                    link: "profile",
-                    title: "Profile",
-                    icon: <FaUser />
-                },
-                {
-                    link: "settings",
-                    title: "Settings",
-                    icon: <IoIosSettings />
-                },
-                {
-                    link: "logout",
-                    title: "Logout",
-                    icon: <IoLogOut />
-                },
+                // {
+                //     link: "profile",
+                //     title: "Profile",
+                //     icon: <FaUser />
+                // },
+                // {
+                //     link: "settings",
+                //     title: "Settings",
+                //     icon: <IoIosSettings />
+                // },
+                // {
+                //     link: "logout",
+                //     title: "Logout",
+                //     icon: <IoLogOut />
+                // },
             ]
     
     return (
@@ -97,7 +98,7 @@ export const MenuItems = () => {
                             <div className="p-3 hover:text-purple-500">
                                 {item.icon}
                             </div>
-                            <div className="hidden md:block hover:text-purple-500">
+                            <div className="hidden md:block hover:text-purple-500 ">
                                 {item.title}
                             </div>
                         </NavLink>
@@ -105,7 +106,7 @@ export const MenuItems = () => {
                     })}
                 </section>
                 <section className="mt-5 border-t-1 border-slate-300 pt-4">
-                    {otherMenu.map((item) => {
+                    {/* {otherMenu.map((item) => {
                     return (
                         <NavLink to={`${(item.link)}`} key={item.title}
                             className="flex items-center gap-x-2 p-3 text-2xl md:text-base justify-center md:justify-start
@@ -118,7 +119,17 @@ export const MenuItems = () => {
                             </div>
                         </NavLink>
                         )
-                    })}
+                    })} */}
+                        <div
+                            className="flex items-center gap-x-2 p-3 text-2xl md:text-base justify-center md:justify-start
+                                cursor-pointer">
+                            <div>
+                                <Modal type={"logout"} />
+                            </div>
+                            <div className="hidden md:block hover:text-purple-500 text-red-600">
+                                Logout
+                            </div>
+                        </div>
                 </section>
             </main>
         </>

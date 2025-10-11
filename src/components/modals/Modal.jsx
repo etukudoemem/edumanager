@@ -7,9 +7,10 @@ import { useState } from "react"
 import { DeleteModal } from "./DeleteModal"
 import { CreateModal } from "./create/CreateModal"
 import { EditModal } from "./edit/EditModal"
-import { IoClose } from "react-icons/io5"
+import { IoClose, IoLogOut } from "react-icons/io5"
 import { useContext } from "react"
 import { creationContext } from "../../contexts/CreationProvider"
+import { authContext } from "../../contexts/AuthProvider"
 
 export const Modal = (
     { table, type, teacherId, studentId, subjectId, 
@@ -22,6 +23,8 @@ export const Modal = (
             subject, setSubject, parent, setParent, 
             classes, setClasses, event, setEvent, 
             announcement, setAnnouncement} = useContext(creationContext)
+
+    const { signUserOut } = useContext(authContext)
 
     const [show, setShow] = useState(false)
     // const size = type === "filter" | "sort" | "create" ? "w-7 h-7" : "w-9 h-9"
@@ -92,7 +95,7 @@ export const Modal = (
                 </section>
             ) : type === "delete" ? (
                 <section className="w-screen h-screen bg-black/40 fixed top-0 right-0 flex justify-center items-center
-                    text-gray-700">
+                    text-gray-700 z-100">
                     {
                         <DeleteModal table={table} setShow={setShow} deleteItem={deleteItem} />
                     }
@@ -129,7 +132,13 @@ export const Modal = (
                         <div className="w-50 h-50">Sort</div>
                     }
                 </section>
-            ) : null
+            ) : type === "logout" && (
+                <section className="w-screen h-screen bg-black/40 fixed top-0 right-0 flex justify-center items-center
+                    text-gray-700 z-100">
+                    {
+                        <DeleteModal table={table} type={type} setShow={setShow} signUserOut={signUserOut} />
+                    }
+                </section>)
         )
     }
 
@@ -141,8 +150,9 @@ export const Modal = (
             : type === "sort" ? <MdSort size={19}/>
             : type === "create" ? <IoMdAdd size={19}/>
             : type === "edit" ? <FaEdit size={17}/>
-            : <RiDeleteBin5Line size={17} />
-        )
+            : type === "delete" ? <RiDeleteBin5Line size={17} />
+            : <IoLogOut />
+        )   
     }
 
     const Icon = selectIcon()
@@ -153,7 +163,8 @@ export const Modal = (
                 show && popUp()
             }
             <button onClick={() => setShow(true)} title={`${type}`}
-                className={`w-9 h-9 bg-[#f0f0ff] text-purple-700 rounded-full flex justify-center items-center cursor-pointer shadow-sm`}>
+                className={` text-purple-700 rounded-full flex justify-center items-center cursor-pointer 
+                    ${type === "logout" ? "text-red-600" : "bg-[#f0f0ff] w-9 h-9 shadow-sm"}`}>
                 {Icon}
             </button>
         </>

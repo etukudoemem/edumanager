@@ -18,7 +18,7 @@ export const FirstName = () => {
                 ${!signup.firstName ? "border-red-500" : "border-purple-800"}`}>
                 <FaUser className="text-purple-800"/>
                 <input 
-                    className="outline-none w-full md:w-1/2 "
+                    className="outline-none w-full "
                     type="text" 
                     name="first name"
                     placeholder="First name"

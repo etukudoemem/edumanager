@@ -4,8 +4,11 @@ import { ParentsList } from "../components/parents/ParentsList"
 import { MdSort } from "react-icons/md"
 import { IoMdAdd } from "react-icons/io"
 import { Modal } from "../components/modals/Modal"
+import { useContext } from "react"
+import { authContext } from "../contexts/AuthProvider"
 
 export const Parents = () => {
+    const { userDetails } = useContext(authContext)
 
     return (
         <>
@@ -16,9 +19,9 @@ export const Parents = () => {
                         <div className="hidden md:block">
                             <Search />
                         </div>
-                        <Modal table="parent" type="filter" />
-                        <Modal table="parent" type="sort" />
-                        <Modal table="parent" type="create" />
+                        {/* <Modal table="parent" type="filter" />
+                        <Modal table="parent" type="sort" /> */}
+                        {userDetails.role === "Admin" && <Modal table="announcement" type="create" />}
                     </div>
                 </section>
                 <section>

@@ -4,9 +4,11 @@ import { EventsList } from "../components/EventsList"
 import { MdSort } from "react-icons/md"
 import { IoMdAdd } from "react-icons/io"
 import { Modal } from "../components/modals/Modal"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { authContext } from "../contexts/AuthProvider"
 
 export const Events = () => {
+    const { userDetails } = useContext(authContext)
 
     return (
         <>
@@ -17,9 +19,9 @@ export const Events = () => {
                         <div className="hidden md:block">
                             <Search />
                         </div>
-                        <Modal table="event" type="filter" />
-                        <Modal table="event" type="sort" />
-                        <Modal table="event" type="create" />
+                        {/* <Modal table="event" type="filter" />
+                        <Modal table="event" type="sort" /> */}
+                        {userDetails.role === "Admin" && <Modal table="announcement" type="create" />}
                     </div>
                 </section>
                 <section>

@@ -24,7 +24,7 @@ export const Email = () => {
                 ${!signup.email || !login.email ? "border-red-500" : "border-purple-800"}`}>
                 <TbMailFilled className="text-purple-800"/>
                 <input 
-                    className="outline-none w-full md:w-1/2 "
+                    className="outline-none w-full "
                     type="email" 
                     name="email"
                     placeholder="Email"

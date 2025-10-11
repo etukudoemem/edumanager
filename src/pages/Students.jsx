@@ -4,8 +4,11 @@ import { StudentsList } from "../components/students/StudentsList"
 import { MdSort } from "react-icons/md"
 import { IoMdAdd } from "react-icons/io"
 import { Modal } from "../components/modals/Modal"
+import { useContext } from "react"
+import { authContext } from "../contexts/AuthProvider"
 
 export const Students = () => {
+    const { userDetails } = useContext(authContext)
 
     return (
         <>
@@ -16,9 +19,9 @@ export const Students = () => {
                         <div className="hidden md:block">
                             <Search />
                         </div>
-                        <Modal table="student" type="filter" />
-                        <Modal table="student" type="sort" />
-                        <Modal table="student" type="create" />
+                        {/* <Modal table="student" type="filter" />
+                        <Modal table="student" type="sort" /> */}
+                        {userDetails.role === "Admin" && <Modal table="announcement" type="create" />}
                     </div>
                 </section>
                 <section>

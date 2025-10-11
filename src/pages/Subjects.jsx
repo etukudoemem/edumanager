@@ -1,8 +1,11 @@
+import { useContext } from "react"
 import { Search } from "../components/Search"
 import { SubjectsList } from "../components/SubjectsList"
 import { Modal } from "../components/modals/Modal"
+import { authContext } from "../contexts/AuthProvider"
 
 export const Subjects = () => {
+    const { userDetails } = useContext(authContext)
 
     return (
         <>
@@ -13,9 +16,9 @@ export const Subjects = () => {
                         <div className="hidden md:block">
                             <Search />
                         </div>
-                        <Modal table="subject" type="filter" />
-                        <Modal table="subject" type="sort" />
-                        <Modal table="subject" type="create" />
+                        {/* <Modal table="subject" type="filter" />
+                        <Modal table="subject" type="sort" /> */}
+                        {userDetails.role === "Admin" && <Modal table="announcement" type="create" />}
                     </div>
                 </section>
                 <section>

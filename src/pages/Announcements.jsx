@@ -1,9 +1,11 @@
 import { Search } from "../components/Search"
 import { Modal } from "../components/modals/Modal"
 import { AnnouncementsList } from "../components/AnnouncementsList"
+import { useContext } from "react"
+import { authContext } from "../contexts/AuthProvider"
 
 export const Announcements = () => {
-
+    const { userDetails } = useContext(authContext)
     return (
         <>
             <main className="w-full h-[100vh] bg-white mt-2">
@@ -13,19 +15,15 @@ export const Announcements = () => {
                         <div className="hidden md:block">
                             <Search />
                         </div>
-                        <Modal table="announcement" type="filter" />
-                        <Modal table="announcement" type="sort" />
-                        <Modal table="announcement" type="create" />
+                        {/* <Modal table="announcement" type="filter" />
+                        <Modal table="announcement" type="sort" /> */}
+                        {userDetails.role === "Admin" && <Modal table="announcement" type="create" />}
                     </div>
                 </section>
                 <section>
                     <AnnouncementsList />
                 </section>
-                <div className="loading flex gap-x-1">
-                    <div className="loads w-2 h-2 bg-purple-700 rounded-full"></div>
-                    <div className="loads w-2 h-2 bg-purple-700 rounded-full"></div>
-                    <div className="loads w-2 h-2 bg-purple-700 rounded-full"></div>
-                </div>
+                
             </main>
         </>
     )

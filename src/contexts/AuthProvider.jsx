@@ -3,6 +3,8 @@ import { useState } from "react";
 import { getAuth, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { app } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
+import { db } from "../firebase/config";
+import { getDocs, collection, addDoc } from "firebase/firestore";
 
 export const auth = getAuth(app);
 
@@ -17,25 +19,70 @@ export const AuthProvider = ({ children }) => {
            return false 
         }
     }
- 
+
+    const getDbUserDetails = () => {
+        const data = window.localStorage.getItem("dbUsers")
+        if (data) {
+            const users = JSON.parse(data)
+            return users
+        } else {
+           return "users not found"
+        }
+    }
+
+    const getUserInfo = () => {
+        const data = window.localStorage.getItem("userInfo")
+        if (data) {
+            const user = JSON.parse(data)
+            return user
+        } else {
+           return "user not found"
+        }
+    }
+    const deleteUserInfo = () => {
+            window.localStorage.removeItem("userInfo")
+        }
+    const deletedbUsers = () => {
+            window.localStorage.removeItem("dbUsers")
+        }
+
+    // deleteUserInfo()
+
     const navigate = useNavigate()
-    const userStatusRef = useRef(null)
+    const [view, setView] = useState(false)
+    const [selectedRole, setSelectedRole ] = useState("")
+    const [retrievedUsers, setRetrievedUsers] = useState(getDbUserDetails())
+    const [userDetails, setUserDetails] = useState(getUserInfo())
+    
+    console.log(retrievedUsers)
+
     const [isLoggedIn, setIsLoggedIn] = useState(getUserStatus())
     const [isLoading, setIsLoading] = useState(false)
     const [login, setLogin] = useState({
         email: true, password: true
         })
     const [signup, setSignup] = useState({
-        firstName: true, lastName: true, email: true, password: true
+        firstName: true, lastName: true, email: true, password: true, role: true
         })
 
     const setUserStatus = () => {
         window.localStorage.setItem("userStatus", isLoggedIn)
     }
 
+    const setDbUserDetails = () => {
+        window.localStorage.setItem("dbUsers", JSON.stringify(retrievedUsers))
+        // console.log(data)
+    }
+
+    const setUserInfo = () => {
+        window.localStorage.setItem("userInfo", JSON.stringify(userDetails))
+        // console.log(data)
+    }
+
     useEffect(() => {
         setUserStatus()
-        // console.log(isLoggedIn)
+        setDbUserDetails()
+        setUserInfo()
     }, [isLoggedIn])
 
     const toastMessage = {
@@ -44,6 +91,38 @@ export const AuthProvider = ({ children }) => {
         logoutSuccess: "Logout successful!",
     }
 
+    // const retrieveUsers = (data, email) => {
+    //     const existingUser = retrievedUsers.find((user) =>{
+    //         if (user.email === email ) {
+    //             return user.email
+    //         }
+    //     })
+    //     setRetrievedUsers(
+    //         data.map((user) => {
+    //             if (user.email === existingUser) {
+    //                 return
+    //             } else {
+    //                 return user
+    //             }
+    //         })
+    //     )
+    // }
+
+    const setDetails = (email) => {
+        retrievedUsers.map((user) => {
+            if (user.email === email) {
+                setUserDetails({id: user.id, fName: user.firstName, lName: user.lastName, email:user.email, role: user.selectedRole})
+                return
+            } else {
+                return
+            }
+        }
+        )
+    }
+
+    console.log(userDetails)
+
+    const usersCollectionRef = collection(db, "users")
     const createNewUser = async(e) => {
         e.preventDefault()
 
@@ -77,11 +156,19 @@ export const AuthProvider = ({ children }) => {
             })
             return
         }
+        if (!selectedRole) {
+            setSignup({
+                ...signup, role: false
+            })
+            return
+        }
         
         try {
             setIsLoading(true)
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-            setIsLoggedIn(true)
+            await addDoc(usersCollectionRef, {email, firstName, lastName, selectedRole})
+            // setIsLoggedIn(true)
+            navigate("/login")
             const user = userCredential
             console.log(user, user.user.email, user.user.uid)
         } catch (error) {
@@ -118,7 +205,15 @@ export const AuthProvider = ({ children }) => {
 
         try {
             setIsLoading(true)
+            const data = await getDocs(usersCollectionRef)
+            const usersData = data.docs.map((doc) =>
+                ({...doc.data(), id: doc.id})
+            )
+            setRetrievedUsers(usersData)
+            console.log(usersData)
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
+            // retrieveUsers(usersData, email)
+            setDetails(email)
             setIsLoggedIn(true)
             navigate("/")
             const user = userCredential
@@ -135,6 +230,7 @@ export const AuthProvider = ({ children }) => {
     const signUserOut = () => {
         signOut(auth).then(() => {
             setIsLoggedIn(false)
+            
             console.log("Sign-out successful.")
             }).catch((error) => {
             // An error happened.
@@ -151,6 +247,34 @@ export const AuthProvider = ({ children }) => {
             }
         })
     }
+
+    // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    // const usersCollectionRef = collection(db, "users")
+    // const [ userList, setUserList] = useState([])
+    // const storeUser = async() => {
+    //     try {
+    //         await addDoc(usersCollectionRef, {email, firstName, lastName, role})
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
+    // const getUsersList = async() => {
+    //     try {
+    //         const data = await getDocs(usersCollectionRef)
+    //         const newData = data.docs.map((doc) =>
+    //         ({...doc.data(), id: doc.id})
+    //         )
+    //         console.log(newData)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     getUsersList()
+    // }, [])
+    
 
     useEffect(() => {
         observeUserStatus()
@@ -170,7 +294,14 @@ export const AuthProvider = ({ children }) => {
         setSignup, 
         isLoggedIn,
         setIsLoggedIn,
-        observeUserStatus
+        observeUserStatus,
+        view,
+        setView,
+        selectedRole,
+        setSelectedRole,
+        retrievedUsers,
+        setRetrievedUsers,
+        userDetails
     }
 
     return <authContext.Provider value={authValues}>
