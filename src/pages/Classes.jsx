@@ -18,7 +18,7 @@ export const Classes = () => {
                         </div>
                         {/* <Modal table="class" type="filter" />
                         <Modal table="class" type="sort" /> */}
-                        {userDetails.role === "Admin" && <Modal table="announcement" type="create" />}
+                        {userDetails.role === "Admin" && <Modal table="class" type="create" />}
                     </div>
                 </section>
                 <section>

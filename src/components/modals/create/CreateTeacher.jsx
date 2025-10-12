@@ -264,8 +264,8 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                                 className={`flex flex-col justify-between text-sm w-[50%] md:w-[60%] outline-none
                                     ${view.classes ? "block" : "hidden"} h-40 py-2 px-2 bg-purple-100 z-10 absolute top-10 left-0`}>
                                 {
-                                    classes.map((clas) =>
-                                        <div className="flex gap-x-1">
+                                    classes.map((clas, index) =>
+                                        <div key={index} className="flex gap-x-1">
                                             <input className="px-2 py-1" type="checkbox" onChange={handleClasses} 
                                             id={clas} name={clas} value={clas} />
                                             <label htmlFor={clas}>{clas}</label>

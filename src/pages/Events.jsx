@@ -21,7 +21,7 @@ export const Events = () => {
                         </div>
                         {/* <Modal table="event" type="filter" />
                         <Modal table="event" type="sort" /> */}
-                        {userDetails.role === "Admin" && <Modal table="announcement" type="create" />}
+                        {userDetails.role === "Admin" && <Modal table="event" type="create" />}
                     </div>
                 </section>
                 <section>

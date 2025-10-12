@@ -21,7 +21,7 @@ export const Parents = () => {
                         </div>
                         {/* <Modal table="parent" type="filter" />
                         <Modal table="parent" type="sort" /> */}
-                        {userDetails.role === "Admin" && <Modal table="announcement" type="create" />}
+                        {userDetails.role === "Admin" && <Modal table="parent" type="create" />}
                     </div>
                 </section>
                 <section>

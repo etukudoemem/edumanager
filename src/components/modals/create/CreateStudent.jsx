@@ -146,7 +146,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="firstName"
                                 className={`w-full outline-none`}
                                 placeholder="First name"
-                                defaultValue={type ==="edit" ? studentInfo.firstName : ""}
+                                defaultValue={type === "edit" ? studentInfo.firstName : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -163,7 +163,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="lastName"
                                 className={`w-full outline-none`}
                                 placeholder="Last name"
-                                defaultValue={type ==="edit" ? studentInfo.lastName : ""}
+                                defaultValue={type === "edit" ? studentInfo.lastName : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -179,7 +179,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                             <select 
                                 id="grade" 
                                 name="grade" 
-                                defaultValue={type ==="edit" ? studentInfo.grade : ""} 
+                                defaultValue={type === "edit" ? studentInfo.grade : ""} 
                                 className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -197,7 +197,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                             <select 
                                 id="Class" 
                                 name="classe" 
-                                defaultValue={type ==="edit" ? studentInfo.classe : ""}
+                                defaultValue={type === "edit" ? studentInfo.classe : ""}
                                 className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
                                 <option value="1A">1A</option>
                                 <option value="2B">2B</option>
@@ -214,7 +214,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                             <select 
                                 id="gender" 
                                 name="gender" 
-                                defaultValue={type ==="edit" ? studentInfo.gender : ""}
+                                defaultValue={type === "edit" ? studentInfo.gender : ""}
                                 className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
@@ -230,7 +230,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="phone"
                                 className={`w-full outline-none`}
                                 placeholder="Phone"
-                                defaultValue={type ==="edit" ? studentInfo.phone : ""}
+                                defaultValue={type === "edit" ? studentInfo.phone : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -247,7 +247,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="email"
                                 className={`w-full outline-none`}
                                 placeholder="Email"
-                                defaultValue={type ==="edit" ? studentInfo.email : ""}
+                                defaultValue={type === "edit" ? studentInfo.email : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -265,7 +265,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="address"
                                 className={`w-full outline-none`}
                                 placeholder="Address"
-                                defaultValue={type ==="edit" ? studentInfo.address : ""}
+                                defaultValue={type === "edit" ? studentInfo.address : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -283,7 +283,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="birthday"
                                 className={`w-full outline-none`}
                                 placeholder="Birthday"
-                                defaultValue={type ==="edit" ? studentInfo.birthday : ""}
+                                defaultValue={type === "edit" ? studentInfo.birthday : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             {/* <Input inputName={"Birthday"} inputType={"date"} /> */}
@@ -298,7 +298,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="about"
                                 className="w-full outline-none"
                                 placeholder="About student"
-                                defaultValue={type ==="edit" ? studentInfo.about : ""}
+                                defaultValue={type === "edit" ? studentInfo.about : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -349,7 +349,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="parentFirstName"
                                 className={`w-full outline-none`}
                                 placeholder="First name"
-                                defaultValue={type ==="edit" ? studentInfo.parentFirstName : ""}
+                                defaultValue={type === "edit" ? studentInfo.parentFirstName : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -366,7 +366,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="parentLastName"
                                 className={`w-full outline-none`}
                                 placeholder="Last name"
-                                defaultValue={type ==="edit" ? studentInfo.parentLastName : ""}
+                                defaultValue={type === "edit" ? studentInfo.parentLastName : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             <FaExclamationCircle size={20}
@@ -377,7 +377,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                     <section className="mt-6">
                         <div className="flex items-center justify-center text-slate-50 text-sm w-full h-10 mt-4 bg-purple-700 rounded">
                             <button type="submit" className="w-full">
-                                {type === "create" ? "Create" : "Update"} {table}
+                                {type === "create" ? "Create" : type === "edit" && "Update"} {table}
                             </button>
                         </div>
                     </section>

@@ -61,19 +61,6 @@ export const Modal = (
         }
     }
 
-    const buttons = () => {
-        return (
-           <div className="flex gap-x-4">
-                <button>
-                    Cancel
-                </button>
-                <button>
-                    Save
-                </button>
-            </div>
-        )
-    }
-
     const popUp = () => {
         return (
             type === "edit" ? (
@@ -97,7 +84,7 @@ export const Modal = (
                 <section className="w-screen h-screen bg-black/40 fixed top-0 right-0 flex justify-center items-center
                     text-gray-700 z-100">
                     {
-                        <DeleteModal table={table} setShow={setShow} deleteItem={deleteItem} />
+                        <DeleteModal table={table} type={type} setShow={setShow} deleteItem={deleteItem} />
                     }
                 </section>
             ) : type === "create" ? (
@@ -108,9 +95,12 @@ export const Modal = (
                             table={table} 
                             type={type} 
                             setShow={setShow}
-                            // eventInfo={eventInfo} 
-                            // classInfo={classInfo}
-                            // announcementInfo={announcementInfo} 
+                            eventInfo={eventInfo} 
+                            classInfo={classInfo}
+                            announcementInfo={announcementInfo} 
+                            subjectInfo={subjectInfo}
+                            studentInfo={studentInfo}
+                            teacherInfo={teacherInfo}
                         />
                     }
                 </section>
@@ -132,11 +122,11 @@ export const Modal = (
                         <div className="w-50 h-50">Sort</div>
                     }
                 </section>
-            ) : type === "logout" && (
+            ) : (
                 <section className="w-screen h-screen bg-black/40 fixed top-0 right-0 flex justify-center items-center
                     text-gray-700 z-100">
                     {
-                        <DeleteModal table={table} type={type} setShow={setShow} signUserOut={signUserOut} />
+                        <DeleteModal type={type} setShow={setShow} signUserOut={signUserOut} />
                     }
                 </section>)
         )
@@ -151,7 +141,7 @@ export const Modal = (
             : type === "create" ? <IoMdAdd size={19}/>
             : type === "edit" ? <FaEdit size={17}/>
             : type === "delete" ? <RiDeleteBin5Line size={17} />
-            : <IoLogOut />
+            : type === "logout" && <IoLogOut />
         )   
     }
 
@@ -162,7 +152,7 @@ export const Modal = (
             {
                 show && popUp()
             }
-            <button onClick={() => setShow(true)} title={`${type}`}
+            <button onClick={() => setShow(true)}
                 className={` text-purple-700 rounded-full flex justify-center items-center cursor-pointer 
                     ${type === "logout" ? "text-red-600" : "bg-[#f0f0ff] w-9 h-9 shadow-sm"}`}>
                 {Icon}

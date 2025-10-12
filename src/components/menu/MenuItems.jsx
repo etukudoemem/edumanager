@@ -79,17 +79,6 @@ export const MenuItems = () => {
         <>
             <main>
                 <section className="w-full">
-                    {/* <NavLink to={"/"} 
-                        className="w-full flex items-center gap-x-2 text-2xl md:text-sm justify-center md:justify-start
-                                cursor-pointer">
-                        <div className="p-3 hover:text-purple-500">
-                            <AiFillHome />
-                        </div>
-                        <div className="hidden md:block hover:text-purple-500">
-                            Dashboard
-                        </div>
-                    </NavLink> */}
-                    
                     {menu.map((item) => {
                     return (
                         <NavLink to={`${(item.link)}`} key={item.title}
@@ -124,7 +113,7 @@ export const MenuItems = () => {
                             className="flex items-center gap-x-2 p-3 text-2xl md:text-base justify-center md:justify-start
                                 cursor-pointer">
                             <div>
-                                <Modal type={"logout"} />
+                                <Modal type={"logout"} table={"logout"} />
                             </div>
                             <div className="hidden md:block hover:text-purple-500 text-red-600">
                                 Logout

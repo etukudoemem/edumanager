@@ -33,7 +33,7 @@ export const CreateModal = ({ table, type, setShow, eventInfo, classInfo,
                     table === "subject" ? <CreateSubject {...properties} /> : 
                     table === "class" ? <CreateClass {...properties} /> :
                     table === "event" ? <CreateEvent {...properties}  /> :
-                    table === "announcement" ? <CreateAnnouncement {...properties} /> : null
+                    table === "announcement" && <CreateAnnouncement {...properties} />
                 }
             </section>
         </>
