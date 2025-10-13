@@ -3,6 +3,7 @@ import { Modal } from "../components/modals/Modal"
 import { AnnouncementsList } from "../components/AnnouncementsList"
 import { useContext } from "react"
 import { authContext } from "../contexts/AuthProvider"
+import { Toast } from "../components/toasts/Toast"
 
 export const Announcements = () => {
     const { userDetails } = useContext(authContext)
@@ -23,7 +24,11 @@ export const Announcements = () => {
                 <section>
                     <AnnouncementsList />
                 </section>
-                
+                <section className="">
+                    <Toast type="create" table={"announcement"} />
+                    <Toast type="edit" table={"announcement"} />
+                    <Toast type="delete" table={"announcement"} />
+                </section>
             </main>
         </>
     )

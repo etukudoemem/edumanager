@@ -4,6 +4,7 @@ import { Search } from "../components/Search";
 import { Notifications } from "../components/Notifications";
 import { UserInfo } from "../components/UserInfo";
 import { Avatar } from "../components/Avatar";
+import { Toast } from "../components/toasts/Toast";
 // import { InfoCard } from "../components/InfoCard";
 // import { FaEllipsis } from "react-icons/fa6";
 // import { StudentsInfo } from "../components/students/StudentsInfo";

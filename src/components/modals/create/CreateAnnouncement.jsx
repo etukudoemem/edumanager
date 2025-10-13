@@ -8,11 +8,13 @@ import { TbSpeakerphone } from "react-icons/tb"
 import { useContext , useState} from "react"
 import { creationContext } from "../../../contexts/CreationProvider"
 import { FaExclamationCircle } from "react-icons/fa"
+import { toastContext } from "../../../contexts/ToastProvider"
 // import { useState } from "react"
 
 let nextId = 0
 export const CreateAnnouncement = ({ table, type, setShow, announcementInfo }) => {
     console.log(announcementInfo)
+    const { showToast, setShowToast, toast, setToast, addToast, removeToast } = useContext(toastContext)
     const { announcement, setAnnouncement } = useContext(creationContext)
         const [announcementInput, setAnnouncementInput] = useState({
                 title: true,
@@ -51,7 +53,8 @@ export const CreateAnnouncement = ({ table, type, setShow, announcementInfo }) =
                 setAnnouncement(
                     [...announcement, {id: nextId++, title, date, classe, details}]
                 )
-                return
+                // setToast({...toast, create: true})
+                addToast(toast, "create")
             }
             if (type === "edit") {
                 setAnnouncement(
@@ -59,8 +62,10 @@ export const CreateAnnouncement = ({ table, type, setShow, announcementInfo }) =
                         a.id === announcementId ? {id: nextId++, title, date, classe, details} : a
                     )
                 )
-                return
+                // setToast({...toast, edit: true})
+                addToast(toast, "edit")
             }
+            removeToast()
             console.log(announcement)
         }
             

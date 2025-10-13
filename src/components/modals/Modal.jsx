@@ -11,6 +11,7 @@ import { IoClose, IoLogOut } from "react-icons/io5"
 import { useContext } from "react"
 import { creationContext } from "../../contexts/CreationProvider"
 import { authContext } from "../../contexts/AuthProvider"
+import { toastContext } from "../../contexts/ToastProvider"
 
 export const Modal = (
     { table, type, teacherId, studentId, subjectId, 
@@ -25,6 +26,7 @@ export const Modal = (
             announcement, setAnnouncement} = useContext(creationContext)
 
     const { signUserOut } = useContext(authContext)
+    const { addToast, removeToast, toast, setToast, setShowToast } = useContext(toastContext)
 
     const [show, setShow] = useState(false)
     // const size = type === "filter" | "sort" | "create" ? "w-7 h-7" : "w-9 h-9"
@@ -33,30 +35,45 @@ export const Modal = (
     const deleteItem = () => {
         if (table === "teacher") {
             setTeacher(teacher.filter((t) => t.id !== teacherId))
+            addToast()
+            removeToast()
             return
         }
         if (table === "student") {
             setStudent(student.filter((s) => s.id !== studentId))
+            addToast()
+            removeToast()
             return
         }
         if (table === "parent") {
             setParent(parent.filter((p) => p.id !== parentId))
+            addToast()
+            removeToast()
             return
         }
         if (table === "subject") {
             setSubject(subject.filter((s) => s.id !== subjectId))
+            addToast()
+            removeToast()
             return
         }
         if (table === "class") {
             setClasses(classes.filter((s) => s.id !== classId))
+            addToast()
+            removeToast()
             return
         }
         if (table === "event") {
             setEvent(event.filter((s) => s.id !== eventId))
+            addToast()
+            removeToast()
             return
         }
         if (table === "announcement") {
             setAnnouncement(announcement.filter((s) => s.id !== announcementId))
+            // setToast({...toast, delete: true})
+            addToast(toast, "delete")
+            removeToast()
             return
         }
     }
