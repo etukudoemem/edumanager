@@ -3,6 +3,7 @@ import { ClassesList } from "../components/ClassesList"
 import { Modal } from "../components/modals/Modal"
 import { useContext } from "react"
 import { authContext } from "../contexts/AuthProvider"
+import { Toast } from "../components/toasts/Toast"
 
 export const Classes = () => {
     const { userDetails } = useContext(authContext)
@@ -23,6 +24,11 @@ export const Classes = () => {
                 </section>
                 <section>
                     <ClassesList />
+                </section>
+                <section className="">
+                    <Toast type="create" table={"class"} />
+                    <Toast type="edit" table={"class"} />
+                    <Toast type="delete" table={"class"} />
                 </section>
             </main>
         </>

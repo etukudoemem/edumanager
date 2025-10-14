@@ -8,6 +8,7 @@ import { PiGenderMaleBold } from "react-icons/pi"
 import { useContext, useState } from "react"
 import { RiDeleteBin5Line } from "react-icons/ri"
 import { creationContext } from "../../../contexts/CreationProvider"
+import { toastContext } from "../../../contexts/ToastProvider"
 // import { creationContext } from "../../contexts/CreationProvider"
 // import { useState } from "react"
 
@@ -17,7 +18,7 @@ let newNum = 2
 
 export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhoto }) => {
     const { parent, setParent } = useContext(creationContext)
-    const [childrenList, setChildrenList] = ([])
+    const { toast, addToast, removeToast } = useContext(toastContext)
     const [parentInput, setParentInput] = useState({
         firstName: true,
         lastName: true,

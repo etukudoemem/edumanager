@@ -7,6 +7,8 @@ import { authContext } from "../contexts/AuthProvider"
 import { Password } from "../components/input/Password"
 import { Link } from "react-router-dom"
 import { RoleSelect } from "../components/RoleSelect"
+import { AuthToast } from "../components/toasts/auth/AuthToast"
+import { Toast } from "../components/toasts/Toast"
 
 export const Signup = () => {
     
@@ -58,6 +60,11 @@ export const Signup = () => {
                         <SignupButton />
                     </section>
                 </form>
+                <section className="">
+                    <Toast type={"networkError"} text={"Check your internet connection and try again"} />
+                    <Toast type={"passwordError"} text={"Password must be at least six(6) characters long"} />
+                    <Toast type={"emailUsed"} text={"This email has already been used"}/>
+                </section>
             </main>
         </>
     )

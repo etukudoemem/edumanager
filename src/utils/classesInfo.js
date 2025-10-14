@@ -1,10 +1,10 @@
 export const classesInfo = [
     {
         id: 123456,
-        supervisor: "John Doe",
+        supervisor: "Susan Gally",
         capacity: 20,
-        gender: "Male",
+        gender: "Female",
         grade: 4,
-        classe: "4C",
+        classe: "4B",
     }
 ]

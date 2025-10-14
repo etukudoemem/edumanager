@@ -8,6 +8,7 @@ import { PiGenderMaleBold } from "react-icons/pi"
 import { SiGoogleclassroom } from "react-icons/si"
 import { useContext, useState } from "react"
 import { creationContext } from "../../../contexts/CreationProvider"
+import { toastContext } from "../../../contexts/ToastProvider"
 // import { useState } from "react"
 
 let nextId = 0
@@ -16,6 +17,7 @@ export const CreateClass = ({ table, type, setShow, classInfo }) => {
         const grades = ["1", "2", "3", "4", "5"]
         const clases = ["1A", "2B", "3C", "4B", "5A"]
         const { classes, setClasses } = useContext(creationContext)
+        const { toast, addToast, removeToast } = useContext(toastContext)
         const [classInput, setClassInput] = useState({
                 capacity: true
             })
@@ -37,7 +39,7 @@ export const CreateClass = ({ table, type, setShow, classInfo }) => {
                 setClasses(
                     [...classes, {id: nextId++, supervisor, gender, grade, classe, capacity}]
                 )
-                return
+                addToast(toast, "create")
             }
 
             if (type === "edit") {
@@ -46,9 +48,9 @@ export const CreateClass = ({ table, type, setShow, classInfo }) => {
                         cl.id === classId ? {id: nextId++, supervisor, gender, grade, classe, capacity} : cl
                     )
                 )
+                addToast(toast, "edit")
             }
-            
-            console.log(classes)
+            removeToast()
         }
         
         const handleOnChange = (e) => {
@@ -59,7 +61,7 @@ export const CreateClass = ({ table, type, setShow, classInfo }) => {
     return (
         <>
             <form onSubmit={(e) => {if (type === "create") {
-                        createClass(e)
+                    createClass(e)
                     } else {createClass(e, classInfo.id)}}}
                 className="bg-white w-[90%] md:w-[65%] lg:w-[55%] xl:w-[45%] h-auto flex flex-col gap-y-3 items-center 
                 py-8 px-4 md:px-6 rounded-lg shadow-xl relative overflow-y-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ">
@@ -71,14 +73,18 @@ export const CreateClass = ({ table, type, setShow, classInfo }) => {
                     <h2 className="my-4 font-medium">
                         {type === "create" ? "Create new" : "Edit"} {table}
                     </h2>
-                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8">
+                    <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8 text-sm">
                         <div className="flex items-center gap-x-2 w-full md:w-[32%] h-9 border-0 bg-purple-50 border-gray-600 
                             px-2 rounded">
                             <div>
                                 <FaUser color="black"/>
                             </div>
                             <label htmlFor="supervisor" className="text-sm opacity-50">Supervisor</label>
-                            <select id="supervisor" name="supervisor" defaultValue={type === "edit" ? classInfo.supervisor : ""} className="flex items-center justify-between text-sm w-[35%] md:w-[40%] outline-none">
+                            <select 
+                                id="supervisor" 
+                                name="supervisor" 
+                                defaultValue={type === "edit" ? classInfo.supervisor : ""} 
+                                className="flex items-center justify-between text-sm w-[35%] md:w-[40%] outline-none">
                                 {/* {type === "edit" ? (<option disabled selected value={classInfo.supervisor}>{classInfo.supervisor}</option>) : ""} */}
                             {
                                 supervisors.map((supervisor) => 
@@ -98,7 +104,11 @@ export const CreateClass = ({ table, type, setShow, classInfo }) => {
                             <div>
                                 <PiGenderMaleBold color="black"/>
                             </div>
-                            <select id="gender" name="gender" className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
+                            <select 
+                                id="gender" 
+                                name="gender" 
+                                defaultValue={type === "edit" ? classInfo.gender : ""}
+                                className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
                                 {/* {type === "edit" ? (<option disabled selected value={classInfo.gender}>{classInfo.gender}</option>) : "Male"} */}
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>

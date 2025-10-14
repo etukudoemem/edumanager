@@ -7,11 +7,13 @@ import { PiGenderMaleBold } from "react-icons/pi"
 import { SiGoogleclassroom } from "react-icons/si"
 import { useContext, useState } from "react"
 import { creationContext } from "../../../contexts/CreationProvider"
+import { toastContext } from "../../../contexts/ToastProvider"
 // import { useState } from "react"
 
 let nextId = 0
 export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePhoto, studentInfo }) => {
     const { student, setStudent } = useContext(creationContext)
+    const { toast, addToast, removeToast } = useContext(toastContext)
     const [studentInput, setStudentInput] = useState({
             firstName: true,
             lastName: true,
@@ -91,7 +93,7 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                 classe, phone, email, address, birthday, gender, about, 
                 parentFirstName, parentLastName}]
             )
-            return
+            addToast(toast, "create")
         }
 
         if (type === "edit") {
@@ -102,8 +104,9 @@ export const CreateStudent = ({ table, type, setShow, photo, setPhoto, handlePho
                     parentFirstName, parentLastName} : s
                 )
             )
-            return
+            addToast(toast, "edit")
         }
+        removeToast()
         console.log(student)
     }
         

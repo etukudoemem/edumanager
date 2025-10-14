@@ -1,8 +1,10 @@
 import { FaEllipsis } from "react-icons/fa6"
 import { Announcement } from "./Announcement"
-import { announcements } from "./announcements"
+import { useContext } from "react"
+import { creationContext } from "../../contexts/CreationProvider"
 
 export const AnnouncementsList = () => {
+    const { announcement } = useContext(creationContext)
 
     return (
         <>
@@ -15,8 +17,8 @@ export const AnnouncementsList = () => {
                 </section>
                 <section>
                     {
-                        announcements.map((announcement, index) => {
-                            return <Announcement key={index} announcement={announcement}/>
+                        announcement.map((ann, index) => {
+                            return <Announcement key={index} announcement={ann}/>
                         })
                     }
                 </section>

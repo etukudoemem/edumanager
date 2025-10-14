@@ -1,13 +1,12 @@
 import { Logo } from "../Logo"
 import { MenuItems } from "./MenuItems"
-import { AiFillHome } from "react-icons/ai"
 
 export const SideMenu = () => {
 
     return (
         <>
             <main>
-                <section className="pt-4 px-2">
+                <section className="pt-4 px-0 pb-5">
                     <Logo />
                 </section>
                 <section className="mt-5">

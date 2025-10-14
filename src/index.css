@@ -201,6 +201,7 @@ table tbody tr:hover {
 
 .active {
   color: rgb(107, 9, 188);
+  background-color: #f0f0ff;
 }
 
 .del:nth-child(1) {

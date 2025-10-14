@@ -3,6 +3,7 @@ import { IoClose } from "react-icons/io5"
 import { useContext, useState } from "react"
 import { creationContext } from "../../../contexts/CreationProvider"
 import { GiTeacher } from "react-icons/gi"
+import { toastContext } from "../../../contexts/ToastProvider"
 // import { useState } from "react"
 
 let nextId = 0
@@ -12,6 +13,7 @@ export const CreateSubject = ({ table, type, setShow, subjectInfo }) => {
     const [teachersList, setTeachersList] = useState([])
     
     const { subject, setSubject } = useContext(creationContext)
+    const { toast, addToast, removeToast } = useContext(toastContext)
     const [subjectInput, setSubjectInput] = useState({
             teachers: true,
             subject: true
@@ -35,6 +37,7 @@ export const CreateSubject = ({ table, type, setShow, subjectInfo }) => {
                 setSubject(
                 [...subject, {id: nextId++, sub, teachers: [...teachersList]}]
             )
+            addToast(toast, "create")
         }
 
         if (type === "edit") {
@@ -43,9 +46,9 @@ export const CreateSubject = ({ table, type, setShow, subjectInfo }) => {
                     s.id === subjectId ? {id: nextId++, sub, teachers: [...teachersList]} : s
                 )
             )
-            return
+            addToast(toast, "edit")
         }
-        console.log(subject)
+        removeToast()
     }
     
 
@@ -119,8 +122,10 @@ export const CreateSubject = ({ table, type, setShow, subjectInfo }) => {
                                                 type="checkbox" 
                                                 onChange={handleTeacher} 
                                                 id="teacher" 
-                                                name="teacher" 
+                                                name="teacher"
                                                 value={teacher}
+                                                defaultChecked={teachers.includes(teacher) ? true : false}
+                                                
                                             />
                                             <label htmlFor="teacher">{teacher}</label>
                                         </div>

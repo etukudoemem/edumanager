@@ -6,6 +6,7 @@ import { IoMdAdd } from "react-icons/io"
 import { Modal } from "../components/modals/Modal"
 import { useContext } from "react"
 import { authContext } from "../contexts/AuthProvider"
+import { Toast } from "../components/toasts/Toast"
 
 export const Parents = () => {
     const { userDetails } = useContext(authContext)
@@ -26,6 +27,11 @@ export const Parents = () => {
                 </section>
                 <section>
                     <ParentsList />
+                </section>
+                <section className="">
+                    <Toast type="create" table={"parent"} />
+                    <Toast type="edit" table={"parent"} />
+                    <Toast type="delete" table={"parent"} />
                 </section>
             </main>
         </>

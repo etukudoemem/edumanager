@@ -13,7 +13,7 @@ export const CreateToast = ({ type, table }) => {
                         Success
                     </h3>
                     <p className="text-xs">
-                        {table} {type === "create" ? "has been created" : "updated"}
+                        {table} has been {type === "create" ? "created" : "updated"}
                     </p>
                 </div>
             </section>

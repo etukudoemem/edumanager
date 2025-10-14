@@ -3,6 +3,7 @@ import { Search } from "../components/Search"
 import { SubjectsList } from "../components/SubjectsList"
 import { Modal } from "../components/modals/Modal"
 import { authContext } from "../contexts/AuthProvider"
+import { Toast } from "../components/toasts/Toast"
 
 export const Subjects = () => {
     const { userDetails } = useContext(authContext)
@@ -23,6 +24,11 @@ export const Subjects = () => {
                 </section>
                 <section>
                     <SubjectsList />
+                </section>
+                <section className="">
+                    <Toast type="create" table={"subject"} />
+                    <Toast type="edit" table={"subject"} />
+                    <Toast type="delete" table={"subject"} />
                 </section>
             </main>
         </>

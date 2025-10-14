@@ -6,7 +6,6 @@ import { IoMdAdd } from "react-icons/io"
 import { useState } from "react"
 import { DeleteModal } from "./DeleteModal"
 import { CreateModal } from "./create/CreateModal"
-import { EditModal } from "./edit/EditModal"
 import { IoClose, IoLogOut } from "react-icons/io5"
 import { useContext } from "react"
 import { creationContext } from "../../contexts/CreationProvider"
@@ -35,43 +34,42 @@ export const Modal = (
     const deleteItem = () => {
         if (table === "teacher") {
             setTeacher(teacher.filter((t) => t.id !== teacherId))
-            addToast()
+            addToast(toast, "delete")
             removeToast()
             return
         }
         if (table === "student") {
             setStudent(student.filter((s) => s.id !== studentId))
-            addToast()
+            addToast(toast, "delete")
             removeToast()
             return
         }
         if (table === "parent") {
             setParent(parent.filter((p) => p.id !== parentId))
-            addToast()
+            addToast(toast, "delete")
             removeToast()
             return
         }
         if (table === "subject") {
             setSubject(subject.filter((s) => s.id !== subjectId))
-            addToast()
+            addToast(toast, "delete")
             removeToast()
             return
         }
         if (table === "class") {
             setClasses(classes.filter((s) => s.id !== classId))
-            addToast()
+            addToast(toast, "delete")
             removeToast()
             return
         }
         if (table === "event") {
             setEvent(event.filter((s) => s.id !== eventId))
-            addToast()
+            addToast(toast, "delete")
             removeToast()
             return
         }
         if (table === "announcement") {
             setAnnouncement(announcement.filter((s) => s.id !== announcementId))
-            // setToast({...toast, delete: true})
             addToast(toast, "delete")
             removeToast()
             return

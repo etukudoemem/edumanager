@@ -5,11 +5,13 @@ import { BsCalendarFill } from "react-icons/bs"
 import { FaExclamationCircle } from "react-icons/fa"
 import { useContext, useEffect, useState } from "react"
 import { creationContext } from "../../../contexts/CreationProvider"
+import { toastContext } from "../../../contexts/ToastProvider"
 
 let nextId = 0
 
 export const CreateEvent = ({ table, type, setShow, eventInfo }) => {
-    // console.log(eventInfo.id)
+    const {event, setEvent} = useContext(creationContext)
+    const { toast, addToast, removeToast } = useContext(toastContext)
     const [eventInput, setEventInput] = useState({
         title: true,
         classe: true,
@@ -23,7 +25,6 @@ export const CreateEvent = ({ table, type, setShow, eventInfo }) => {
         const { name } = e.target
         setEventInput({...eventInput, [name]: true})
     }
-    const {event, setEvent} = useContext(creationContext)
     
     const createEvent = (e, eventId) => {
         e.preventDefault()
@@ -60,7 +61,7 @@ export const CreateEvent = ({ table, type, setShow, eventInfo }) => {
            setEvent(
                 [...event, {id: nextId++, title, description, classe, date, starts, ends}]
             ) 
-            return
+            addToast(toast, "create")
         } 
         
         if (type === "edit") {
@@ -69,10 +70,9 @@ export const CreateEvent = ({ table, type, setShow, eventInfo }) => {
                     ev.id === eventId ? {id: nextId, title, description, classe, date, starts, ends} : ev
                 )
             ) 
-            return
+            addToast(toast, "edit")
         } 
-
-        console.log(event)
+        removeToast()
     }
     
     // useEffect(() => {
@@ -124,8 +124,12 @@ export const CreateEvent = ({ table, type, setShow, eventInfo }) => {
                                 <SiGoogleclassroom color="black"/>
                             </div>
                             <label htmlFor="classe" className="text-sm">Class</label>
-                            <select id="classe" name="classe" className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
-                                {type === "edit" && (<option selected hidden value={eventInfo.classe}>{eventInfo.classe}</option>)}
+                            <select 
+                                id="classe" 
+                                name="classe" 
+                                className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none"
+                                defaultValue={type === "edit" ? eventInfo.classe : ""}
+                            >
                                 <option value="1A">1A</option>
                                 <option value="2B">2B</option>
                                 <option value="3C">3C</option>

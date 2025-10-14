@@ -4,6 +4,7 @@ import { Email } from "../components/input/Email"
 import { authContext } from "../contexts/AuthProvider"
 import { Password } from "../components/input/Password"
 import { LoginButton } from "../components/buttons/LoginButton"
+import { Toast } from "../components/toasts/Toast"
 
 export const Login = () => {
     const { signUserIn, login, signUserOut } = useContext(authContext)
@@ -37,6 +38,10 @@ export const Login = () => {
                         <LoginButton />
                     </section>
                 </form>
+                <section>
+                    <Toast type={"networkError"} text={"Check your internet connection and try again"} />
+                    <Toast type={"credentials"} text={"Incorrect login credentials"} />
+                </section>
             </main>
         </>
     )

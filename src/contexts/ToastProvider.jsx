@@ -7,7 +7,13 @@ export const ToastProvider = ({ children }) => {
     const [toast, setToast] = useState({
         create: false,
         delete: false,
-        edit: false
+        edit: false,
+        network: false,
+        emailUsed: false,
+        passwordLength: false,
+        credentials: false,
+        login: false,
+        signup: false
     })
 
     const addToast = (toast, action) => {
@@ -18,9 +24,13 @@ export const ToastProvider = ({ children }) => {
     }
 
     const removeToast = () => {
-        // toast[action] = false
         setTimeout(() => {
-            setToast({create: false, edit: false, delete: false})
+            setToast({create: false, edit: false, delete: false, network: false,
+                emailUsed: false,
+                passwordLength: false,
+                credentials: false,
+                login: false,
+                signup: false })
         }, [5000])
     }
 

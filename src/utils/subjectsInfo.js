@@ -1,6 +1,6 @@
 export const subjectsInfo = [
     {
         sub: "Math",
-        teachers: ["John Doe", "Janet Doe", "Johnson Doe"]
+        teachers: ["George Sidwell", "Dan Maxwell", "Gabby Jean"]
     }
 ]

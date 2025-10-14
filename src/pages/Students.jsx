@@ -1,11 +1,9 @@
-import { VscSettings } from "react-icons/vsc"
 import { Search } from "../components/Search"
 import { StudentsList } from "../components/students/StudentsList"
-import { MdSort } from "react-icons/md"
-import { IoMdAdd } from "react-icons/io"
 import { Modal } from "../components/modals/Modal"
 import { useContext } from "react"
 import { authContext } from "../contexts/AuthProvider"
+import { Toast } from "../components/toasts/Toast"
 
 export const Students = () => {
     const { userDetails } = useContext(authContext)
@@ -26,6 +24,11 @@ export const Students = () => {
                 </section>
                 <section>
                     <StudentsList />
+                </section>
+                <section className="">
+                    <Toast type="create" table={"student"} />
+                    <Toast type="edit" table={"student"} />
+                    <Toast type="delete" table={"student"} />
                 </section>
             </main>
         </>

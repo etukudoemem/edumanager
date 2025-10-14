@@ -25,7 +25,7 @@ export const TeachersList = () => {
                     <thead>
                         <tr>
                             <th>Info</th>
-                            <th className="hidden lg:table-cell">Teacher ID</th>
+                            {/* <th className="hidden lg:table-cell">Teacher ID</th> */}
                             <th className="hidden md:table-cell">Subjects</th>
                             <th className="hidden md:table-cell">Classes</th>
                             <th className="hidden md:table-cell">Phone</th>
@@ -48,7 +48,7 @@ export const TeachersList = () => {
                                             </div>
                                         </span>
                                     </td>
-                                    <td className="hidden lg:table-cell">{info.id}</td>
+                                    {/* <td className="hidden lg:table-cell">{info.id}</td> */}
                                     <td className="hidden md:table-cell">{(info.subjects).join(", ")}</td>
                                     <td className="hidden md:table-cell">{(info.classes).join(", ")}</td>
                                     <td className="hidden md:table-cell">{info.phone}</td>

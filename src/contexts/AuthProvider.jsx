@@ -1,16 +1,19 @@
-import { createContext, useEffect, useRef } from "react";
+import { createContext, useContext, useEffect, useRef } from "react";
 import { useState } from "react";
 import { getAuth, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { app } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/config";
 import { getDocs, collection, addDoc } from "firebase/firestore";
+import { toastContext } from "./ToastProvider";
 
 export const auth = getAuth(app);
 
 export const authContext = createContext(null)
 
 export const AuthProvider = ({ children }) => {
+
+    const { toast, addToast, removeToast } = useContext(toastContext)
     const getUserStatus = () => {
         const user = window.localStorage.getItem("userStatus")
         if (user) {
@@ -85,12 +88,6 @@ export const AuthProvider = ({ children }) => {
         setUserInfo()
     }, [isLoggedIn])
 
-    const toastMessage = {
-        signupSuccess: "Sign up successful!",
-        loginSuccess: "Login successful!",
-        logoutSuccess: "Logout successful!",
-    }
-
     // const retrieveUsers = (data, email) => {
     //     const existingUser = retrievedUsers.find((user) =>{
     //         if (user.email === email ) {
@@ -123,6 +120,7 @@ export const AuthProvider = ({ children }) => {
     console.log(userDetails)
 
     const usersCollectionRef = collection(db, "users")
+    
     const createNewUser = async(e) => {
         e.preventDefault()
 
@@ -172,6 +170,21 @@ export const AuthProvider = ({ children }) => {
             const user = userCredential
             console.log(user, user.user.email, user.user.uid)
         } catch (error) {
+            if (error.message === "Firebase: Error (auth/network-request-failed).") {
+                addToast(toast, "network")
+                removeToast()
+                return
+            } 
+            if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+                addToast(toast, "emailUsed")
+                removeToast()
+                return
+            } 
+            if (error.message === "Firebase: Password should be at least 6 characters (auth/weak-password).") {
+                addToast(toast, "passwordLength")
+                removeToast()
+                return
+            }
             console.log(error.message)
         } finally {
             setIsLoading(false)
@@ -212,14 +225,24 @@ export const AuthProvider = ({ children }) => {
             setRetrievedUsers(usersData)
             console.log(usersData)
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
-            // retrieveUsers(usersData, email)
             setDetails(email)
             setIsLoggedIn(true)
             navigate("/")
             const user = userCredential
-            console.log(user, user.user.email, user.user.uid)
+            // console.log(user, user.user.email, user.user.uid)
             
         } catch (error) {
+            if (error.message === "Firebase: Error (auth/network-request-failed).") {
+                addToast(toast, "network")
+                removeToast()
+                return
+            } 
+            if (error.message === "Firebase: Error (auth/invalid-credential).") {
+                addToast(toast, "credentials")
+                removeToast()
+                return
+            }
+
             console.log(error.message)
         } finally {
             setIsLoading(false)
