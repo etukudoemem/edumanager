@@ -7,9 +7,9 @@ export const LoginButton = () => {
     return (
         <>
             <button className={`w-[85%] py-3 flex justify-center items-center gap-x-2 text-white bg-purple-800 rounded
-                ${isLoading && "opacity-90"}`} 
+                ${isLoading && "opacity-80"}`} 
                 type="submit">
-                {isLoading ? "Logging in" : "Login"}
+                {isLoading ? "Logging in..." : "Login"}
                 {isLoading && <div className="loading flex gap-x-1">
                     <div className="loads w-2 h-2 bg-white rounded-full"></div>
                     <div className="loads w-2 h-2 bg-white rounded-full"></div>

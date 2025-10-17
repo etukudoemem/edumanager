@@ -7,8 +7,8 @@ export const UserInfo = () => {
         <>
             <main>
                 <section className="flex flex-col items-end w-full ">
-                    <p className="font-semibold text-sm">{userDetails.fName} {userDetails.lName}</p>
-                    <p className="text-xs mt-[-3px] ">{userDetails.role}</p>
+                    <p className="font-semibold text-[10px]">{userDetails.fName} {userDetails.lName}</p>
+                    <p className="text-[9px] mt-[-3px] ">{userDetails.role}</p>
                 </section>
             </main>
         </>

@@ -50,7 +50,7 @@ export const ParentsList = () => {
                                     <td className="hidden lg:table-cell">{info.address}</td>
                                     <td className="">
                                         <div className="flex gap-x-5 text-xl text-purple-800 justify-end md:justify-start">
-                                            <Modal table="parent" type="edit" />
+                                            <Modal table="parent" type="edit" parentInfo={info} />
                                             <Modal table="parent" type="delete" parentId={info.id} />
                                         </div>
                                     </td>

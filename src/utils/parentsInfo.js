@@ -1,7 +1,7 @@
 export const parentsInfo = [
     {
         id: 123456,
-        firstName: "John",
+        firstName: "Jane",
         lastName: "Doe",
         email: "johndoe@gmail.com",
         children: ["John Doe", "Jill Doe"],

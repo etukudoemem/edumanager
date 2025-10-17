@@ -5,7 +5,7 @@ export const Avatar = () => {
     return (
         <>
             <section>
-                <FaUserCircle size={35} className="text-[#222] "/>
+                <FaUserCircle size={25} className="text-gray-600 "/>
             </section>
         </>
     )

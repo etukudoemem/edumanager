@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
     const [retrievedUsers, setRetrievedUsers] = useState(getDbUserDetails())
     const [userDetails, setUserDetails] = useState(getUserInfo())
     
-    console.log(retrievedUsers)
+    // console.log(retrievedUsers)
 
     const [isLoggedIn, setIsLoggedIn] = useState(getUserStatus())
     const [isLoading, setIsLoading] = useState(false)
@@ -117,7 +117,7 @@ export const AuthProvider = ({ children }) => {
         )
     }
 
-    console.log(userDetails)
+    // console.log(userDetails)
 
     const usersCollectionRef = collection(db, "users")
     
@@ -168,7 +168,7 @@ export const AuthProvider = ({ children }) => {
             // setIsLoggedIn(true)
             navigate("/login")
             const user = userCredential
-            console.log(user, user.user.email, user.user.uid)
+            // console.log(user, user.user.email, user.user.uid)
         } catch (error) {
             if (error.message === "Firebase: Error (auth/network-request-failed).") {
                 addToast(toast, "network")
@@ -223,7 +223,7 @@ export const AuthProvider = ({ children }) => {
                 ({...doc.data(), id: doc.id})
             )
             setRetrievedUsers(usersData)
-            console.log(usersData)
+            // console.log(usersData)
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
             setDetails(email)
             setIsLoggedIn(true)

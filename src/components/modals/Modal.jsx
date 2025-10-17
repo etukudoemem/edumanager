@@ -11,13 +11,13 @@ import { useContext } from "react"
 import { creationContext } from "../../contexts/CreationProvider"
 import { authContext } from "../../contexts/AuthProvider"
 import { toastContext } from "../../contexts/ToastProvider"
+import { BiLogOut } from "react-icons/bi"
 
 export const Modal = (
     { table, type, teacherId, studentId, subjectId, 
         parentId, eventId, classId, announcementId, 
         eventInfo, classInfo, announcementInfo, subjectInfo,
-        studentInfo, teacherInfo,
-    }) => {
+        studentInfo, teacherInfo, parentInfo }) => {
 
     const { teacher, setTeacher, student, setStudent, 
             subject, setSubject, parent, setParent, 
@@ -92,6 +92,7 @@ export const Modal = (
                             subjectInfo={subjectInfo}
                             studentInfo={studentInfo}
                             teacherInfo={teacherInfo}
+                            parentInfo={parentInfo}
                         />
                     }
                 </section>
@@ -116,6 +117,7 @@ export const Modal = (
                             subjectInfo={subjectInfo}
                             studentInfo={studentInfo}
                             teacherInfo={teacherInfo}
+                            parentInfo={parentInfo}
                         />
                     }
                 </section>
@@ -156,7 +158,7 @@ export const Modal = (
             : type === "create" ? <IoMdAdd size={19}/>
             : type === "edit" ? <FaEdit size={17}/>
             : type === "delete" ? <RiDeleteBin5Line size={17} />
-            : type === "logout" && <IoLogOut />
+            : type === "logout" && <BiLogOut />
         )   
     }
 

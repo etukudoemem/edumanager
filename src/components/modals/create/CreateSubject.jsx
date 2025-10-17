@@ -6,19 +6,19 @@ import { GiTeacher } from "react-icons/gi"
 import { toastContext } from "../../../contexts/ToastProvider"
 // import { useState } from "react"
 
-let nextId = 0
+let nextId = 1
 export const CreateSubject = ({ table, type, setShow, subjectInfo }) => {
     const [view, setView] = useState(false)
     const teachers = ["George Sidwell", "Jane Foster", "Ann Mitchel", "Gabby Jean", "Dan Maxwell"]
     const [teachersList, setTeachersList] = useState([])
-    
+    // const [selected, setSelected] = useState(false)
     const { subject, setSubject } = useContext(creationContext)
     const { toast, addToast, removeToast } = useContext(toastContext)
     const [subjectInput, setSubjectInput] = useState({
             teachers: true,
             subject: true
         })
-    
+    const subjectTeachers = teachersList.map((teachers) => teachers.names)
     const createSubject = (e, subjectId) => {
         e.preventDefault()
         const formData = new FormData(e.target)
@@ -43,7 +43,7 @@ export const CreateSubject = ({ table, type, setShow, subjectInfo }) => {
         if (type === "edit") {
             setSubject(
                 subject.map((s) => 
-                    s.id === subjectId ? {id: nextId++, sub, teachers: [...teachersList]} : s
+                    s.id === subjectId ? {id: s.id, sub, teachers: [...teachersList]} : s
                 )
             )
             addToast(toast, "edit")
@@ -65,8 +65,12 @@ export const CreateSubject = ({ table, type, setShow, subjectInfo }) => {
         if (e.target.checked) {
             setTeachersList([...teachersList, e.target.value])
         } else {
-            setTeachersList(teachersList.filter((teach) => teach !== e.target.value))
+            setTeachersList(teachersList.filter((teacher) => teacher !== e.target.value))
         }
+        // if (e.target.checked) {
+            
+        // }
+        
         console.log(teachersList)
     }
 
@@ -88,7 +92,7 @@ export const CreateSubject = ({ table, type, setShow, subjectInfo }) => {
                         {type === "create" ? "Create new" : "Edit"} {table}
                     </h2>
                     <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8 text-sm">
-                        <div className={`flex items-center gap-x-2 w-full md:w-[48%] h-9 border-0 bg-purple-50 bg-purple-50 
+                        <div className={`flex items-center gap-x-2 w-full h-9 border-0 bg-purple-50 bg-purple-50 
                             border-gray-600 px-2 rounded ${!subjectInput.subject && "border-red-500 border-2"}`}>
                             <div>
                                 <FaBookOpen color="black"/>
@@ -102,7 +106,7 @@ export const CreateSubject = ({ table, type, setShow, subjectInfo }) => {
                                 onChange={(e) => handleOnChange(e)}
                             />
                         </div>
-                        <div className={`flex items-center gap-x-2 w-full md:w-[48%] h-9 border-0 border-gray-600 
+                        <div className={`flex items-center gap-x-2 w-full h-9 border-0 border-gray-600 
                             px-2 rounded relative ${!subjectInput.teachers && "border-red-500 border-2"}`}>
                             <div>
                                 <GiTeacher color="black"/>
@@ -120,12 +124,11 @@ export const CreateSubject = ({ table, type, setShow, subjectInfo }) => {
                                             <input 
                                                 className="px-2 py-1" 
                                                 type="checkbox" 
-                                                onChange={handleTeacher} 
+                                                onChange={(e) => handleTeacher(e)}
+                                                defaultChecked={type === "edit" && subjectInfo.teachers.includes(teacher)} 
                                                 id="teacher" 
                                                 name="teacher"
                                                 value={teacher}
-                                                defaultChecked={teachers.includes(teacher) ? true : false}
-                                                
                                             />
                                             <label htmlFor="teacher">{teacher}</label>
                                         </div>
@@ -133,13 +136,20 @@ export const CreateSubject = ({ table, type, setShow, subjectInfo }) => {
                                 }
                             </div>
                         </div>
-                        <div className="flex flex-wrap gap-2 w-full h-auto -mt-[12px] md:-mt-[20px]">
+                        {type === "create" ? <div className="flex flex-wrap gap-2 w-full h-auto -mt-[12px] md:-mt-[20px]">
                             {teachersList.map((teacher) =>
                                 <div key={teacher} className="flex items-center gap-x-2 h-auto w-auto px-2 py-1 bg-purple-700 rounded text-slate-50 text-xs font-light">
                                     {teacher}
                                 </div>
                             )}
-                        </div>
+                        </div> :
+                        <div className="flex flex-wrap gap-2 w-full h-auto -mt-[12px] md:-mt-[20px]">
+                            {subjectInfo.teachers.map((teacher) =>
+                                <div key={teacher} className="flex items-center gap-x-2 h-auto w-auto px-2 py-1 bg-purple-700 rounded text-slate-50 text-xs font-light">
+                                    {teacher}
+                                </div>
+                            )}
+                        </div>}
                         <div className="flex items-center justify-center text-slate-50 text-sm w-full h-10 mt-4 bg-purple-700 rounded">
                             <button type="submit" className="w-full">
                                 {type === "create" ? "Create" : "Update"} {table}

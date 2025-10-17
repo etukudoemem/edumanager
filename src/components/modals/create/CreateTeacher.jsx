@@ -7,6 +7,7 @@ import { FaAddressCard } from "react-icons/fa6"
 import { FaBookOpen } from "react-icons/fa6"
 import { IoIosCloudUpload, IoIosMail } from "react-icons/io"
 import { PiGenderMaleBold } from "react-icons/pi"
+import { toastContext } from "../../../contexts/ToastProvider"
 // import { useState } from "react"
 let nextId = 0
 export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePhoto, teacherInfo }) => {
@@ -19,6 +20,7 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
     const [subjectList, setSubjectList] = useState([])
     const [classList, setClassList] = useState([])
     const { teacher, setTeacher } = useContext(creationContext)
+    const { toast, addToast, removeToast } = useContext(toastContext)
     const [teacherInput, setTeacherInput] = useState({
             firstName: true,
             lastName: true,
@@ -90,17 +92,20 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                 [...teacher, {id: nextId++, firstName, lastName, subjects: [...subjectList], 
                     classes: [...classList], phone, email, address, birthday, gender, about}]
             )
+            addToast(toast, "create")
         }
 
         if (type == "edit") {
             setTeacher(
                 teacher.map((t) => 
-                    t.id === teacherId ? {id: nextId++, firstName, lastName, 
+                    t.id === teacherId ? {id: t.id, firstName, lastName, 
                         subjects: [...subjectList], classes: [...classList], 
                         phone, email, address, birthday, gender, about} : t
                 )
             )
+            addToast(toast, "edit")
         }
+        removeToast()
         console.log(teacher)
     }
     
@@ -405,7 +410,7 @@ export const CreateTeacher = ({ table, type, setShow, photo, setPhoto, handlePho
                                 name="about"
                                 className={`w-full outline-none`}
                                 placeholder="Describe teacher"
-                                defaultValue={type === "edit" ? teacherInfo.description : ""}
+                                defaultValue={type === "edit" ? teacherInfo.about : ""}
                                 onChange={(e) => handleOnChange(e)}
                             />
                             {/* <Input inputName={"Address"} inputType={"text"} /> */}

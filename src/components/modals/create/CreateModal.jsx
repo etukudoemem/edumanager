@@ -8,7 +8,7 @@ import { CreateClass } from "./CreateClass"
 import { CreateSubject } from "./CreateSubject"
 
 export const CreateModal = ({ table, type, setShow, eventInfo, classInfo,
-        announcementInfo, subjectInfo, studentInfo, teacherInfo
+        announcementInfo, subjectInfo, studentInfo, teacherInfo, parentInfo
     }) => {
     const [photo, setPhoto] = useState(null)
     
@@ -20,7 +20,7 @@ export const CreateModal = ({ table, type, setShow, eventInfo, classInfo,
     }
 
     const properties = {table, type, setShow, photo, setPhoto, handlePhoto, eventInfo,
-        classInfo, announcementInfo, subjectInfo, studentInfo, teacherInfo,
+        classInfo, announcementInfo, subjectInfo, studentInfo, teacherInfo, parentInfo
     }
 
     return (

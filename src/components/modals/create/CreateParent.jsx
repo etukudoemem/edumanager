@@ -16,7 +16,7 @@ let nextId = 0
 let number = 1
 let newNum = 2
 
-export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhoto }) => {
+export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhoto, parentInfo }) => {
     const { parent, setParent } = useContext(creationContext)
     const { toast, addToast, removeToast } = useContext(toastContext)
     const [parentInput, setParentInput] = useState({
@@ -31,11 +31,23 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
 
     const [inputField, setInputField] = useState([
         {
-            id: nextId++, num: number, value: ""
+            id: nextId++, value: ""
         }
     ])
+
+    const [child, setChild] = useState([])
+
+    // const names = () => {
+    //     inputField.map((field) => {
+    //         if (inputField.value) {
+    //             setChild(input.value)
+    //         } else {
+    //             return
+    //         }
+    //     })
+    // }
     
-    const createParent = (e) => {
+    const createParent = (e, parentId) => {
         e.preventDefault()
         const formData = new FormData(e.target)
         const firstName = formData.get("firstName")
@@ -75,9 +87,20 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
             return
         }
 
-        setParent(
-            [...parent, {id: nextId++, firstName, lastName, children: (inputField.map((input) => input.value)), phone, email, address, gender}]
-        )
+        if (type === "create") {
+            setParent(
+                [...parent, {id: nextId++, firstName, lastName, children: (inputField.map((input) => input.value)), phone, email, address, gender}]
+            )
+            addToast(toast, "create")
+        } else {
+            setParent(
+                parent.map((p) => 
+                    p.id === parentId ? {id: p.id, firstName, lastName, children: [...p.children], phone, email, address, gender} : p
+                )
+            )
+            addToast(toast, "edit")
+        }
+        removeToast()
         console.log(parent)
     }
 
@@ -88,29 +111,39 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
     const handleInputField = (e, inputId) => {
         if (e.target.value) {
             setParentInput({...parentInput, childName: true})
+            setInputField(inputField.map((input) => 
+                input.id === inputId ? {...input, value: [input.value, e.target.value]} : input
+            ))
         }
-        setInputField(inputField.map((input) => 
-            input.id === inputId ? {...input, value: e.target.value} : input
-        ))
+
+        
+        // setInputField(inputField.map((input) => 
+        //     input.id === inputId ? {...input, value: e.target.value} : input
+        // ))
+        
         console.log(inputField)
     }
 
     const handleAddChild = () => {
         setInputField( 
             [...inputField, {
-                id: nextId++, num: newNum++, value: ""
+                id: nextId++, value: ""
             }]
         )
     }
 
     const handleRemoveChild = (inputId) => {
         setInputField(
-            inputField.filter((input) => input.id !== inputId )
+            inputField.filter((input) => input.id !== inputId)
         )
     }
     return (
         <>
-            <form onSubmit={(e) => createParent(e)}
+            <form onSubmit={(e) => {if (type === "create") {
+                    createParent(e)
+                } else {
+                    createParent(e, parentInfo.id)
+                }}}
                 className="bg-white w-[90%] md:w-[65%] lg:w-[55%] xl:w-[45%] h-[83vh] md:h-[82vh] flex flex-col gap-y-3 items-center 
                 py-8 px-4 md:px-6 rounded-lg shadow-xl relative overflow-y-scroll">
                 <div className="w-full ">
@@ -119,7 +152,7 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
                         <IoClose size={25}/>
                     </div>
                     <h2 className="my-4 font-medium">
-                        Create new {table}
+                        {type === "create" ? "Create new" : "Edit"} {table}
                     </h2>
                     <section className="flex justify-between flex-col md:flex-row flex-wrap gap-y-4 gap-x-1 md:gap-y-8 text-sm">
                         <div className={`flex items-center gap-x-2 w-full md:w-[48%] h-9 border-0 bg-purple-50 bg-purple-50 
@@ -131,6 +164,7 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
                                 className="w-full outline-none"
                                 type="text" 
                                 name="firstName" 
+                                defaultValue={type === "edit" ? parentInfo.firstName : ""}
                                 placeholder="First name"
                                 onChange={handleOnChange}
                             />
@@ -144,6 +178,7 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
                                 className="w-full outline-none"
                                 type="text" 
                                 name="lastName"
+                                defaultValue={type === "edit" ? parentInfo.lastName : ""}
                                 placeholder="Last name" 
                                 onChange={handleOnChange}
                             />
@@ -153,7 +188,7 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
                                 Child:
                             </h5>
                             {
-                                inputField.map((field) => 
+                                inputField.map((field, index) => 
                                     <section key={field.id} className="w-full mt-3">
                                         <div className={`flex items-center gap-x-0 w-full h-9 border-0 bg-purple-50 border-gray-600 
                                              rounded ${!parentInput.childName && "border-red-500 border-2"}`}>
@@ -163,11 +198,12 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
                                             <input 
                                                 type="text" 
                                                 name="childName"
+                                                defaultValue={type === "edit" ? parentInfo.children[index] : ""}
                                                 className="outline-none w-full"
                                                 placeholder="First and Last name"
                                                 onChange={(e) => handleInputField(e, field.id)}
                                             />
-                                            <div className={`w-[15%] h-[inherit] bg-purple-200 flex justify-center items-center ${field.num === 1 && "hidden"}`}>
+                                            <div className={`w-[15%] h-[inherit] rounded-r bg-purple-200 flex justify-center items-center ${index === 0 && "hidden"}`}>
                                                 <button onClick={() => handleRemoveChild(field.id)}
                                                     type="button" className="w-full flex justify-center items-center">
                                                     <RiDeleteBin5Line />
@@ -194,6 +230,7 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
                                 className="w-full outline-none"
                                 type="number" 
                                 name="phone"
+                                defaultValue={type === "edit" ? parentInfo.phone : ""}
                                 placeholder="Phone" 
                                 onChange={handleOnChange}
                             />
@@ -207,6 +244,7 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
                                 className="w-full outline-none"
                                 type="email" 
                                 name="email"
+                                defaultValue={type === "edit" ? parentInfo.email : ""}
                                 placeholder="Email" 
                                 onChange={handleOnChange}
                             />
@@ -220,6 +258,7 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
                                 className="w-full outline-none"
                                 type="text" 
                                 name="address"
+                                defaultValue={type === "edit" ? parentInfo.address : ""}
                                 placeholder="Address" 
                                 onChange={handleOnChange}
                             />
@@ -229,9 +268,13 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
                             <div>
                                 <PiGenderMaleBold color="black"/>
                             </div>
-                            <select id="gender" className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
-                                <option value="">Male</option>
-                                <option value="">Female</option>
+                            <select 
+                                id="gender"
+                                name="gender" 
+                                defaultValue={type === "edit" ? parentInfo.gender : ""}
+                                className="flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
                             </select>
                         </div>
                         <div className="flex items-center gap-x-2 w-34 md:w-[55%] h-9 border-0 border-gray-600 px-2 rounded">
@@ -260,7 +303,7 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
                         </div>}
                         <div className="flex items-center justify-center text-slate-50 text-sm w-full h-10 mt-4 bg-purple-700 rounded">
                             <button type="submit" className="w-full"> 
-                                Create {table}
+                                {type === "create" ? "Create" : "Update"} {table}
                             </button>
                         </div>
                     </section>
