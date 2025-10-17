@@ -18,7 +18,7 @@ export const SubjectsList = () => {
                         <tr>
                             <th>Subject</th>
                             <th className="hidden md:table-cell">Teachers</th>
-                            <th className="hidden md:table-cell">SubjectID</th>
+                            {/* <th className="hidden md:table-cell">SubjectID</th> */}
                             <th>Actions</th> 
                         </tr>
                     </thead>
@@ -32,7 +32,7 @@ export const SubjectsList = () => {
                                     <td className="hidden md:table-cell">
                                         {(info.teachers).join(", ")}
                                     </td>
-                                    <td className="hidden md:table-cell">{info.id}</td>
+                                    {/* <td className="hidden md:table-cell">{info.id}</td> */}
                                     {/* <td className="hidden md:table-cell">{info.classes.join(', ')}</td> */}
                                     {/* <td className="hidden md:table-cell">{info.phone}</td> */}
                                     {/* <td className="hidden lg:table-cell">{(info.teachers).join(", ")}</td> */}

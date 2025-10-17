@@ -201,7 +201,7 @@ table tbody tr:hover {
 
 .active {
   color: rgb(119, 12, 206);
-  background-color: #f0f0ff;
+  background-color: #e2e2f9;
   box-shadow: 1px 1px 0px 1px#edeff3e0;
   font-weight: 500;
 }
