@@ -27,16 +27,22 @@ export const RoleSelect = () => {
                     <select id="subjects" name="roles" multiple onChange={handleRole}
                         className={`flex flex-col text-sm w-full outline-none rounded
                             ${view ? "block" : "hidden"} h-39 py-2 bg-purple-500 z-10 absolute top-12 left-0`}>
-                        {
-                            roles.map((role) => 
-                                <option 
-                                    key={role} 
-                                    className="text-center py-2"
-                                    value={role}>
-                                        {role}
+                        {/* {
+                            roles.map((role) =>  */}
+                                <option className="text-center py-2" value="Admin">
+                                    Admin
                                 </option>
-                            )
-                        }
+                                <option className="text-center py-2" value="Teacher">
+                                    Teacher
+                                </option>
+                                <option className="text-center py-2" value="Student">
+                                    Student
+                                </option>
+                                <option className="text-center py-2" value="Parent">
+                                    Parent
+                                </option>
+                            {/* )
+                        } */}
                         
                     </select>
                 </div>
