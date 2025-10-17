@@ -24,7 +24,7 @@ export const RoleSelect = () => {
                     <div>
                         {view ? <FaChevronDown size={12}/> : <FaChevronRight size={12}/>}
                     </div>
-                    <select id="subjects" name="roles" multiple onChange={handleRole}
+                    <select id="subjects" name="roles" onChange={handleRole}
                         className={`flex flex-col text-sm w-full outline-none rounded
                             ${view ? "block" : "hidden"} h-39 py-2 bg-purple-500 z-10 absolute top-12 left-0`}>
                         {
