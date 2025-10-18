@@ -1,6 +1,9 @@
+import { useContext } from "react"
 import { FiSearch } from "react-icons/fi"
+import { creationContext } from "../contexts/CreationProvider"
 
 export const Search = () => {
+    const { setSearch } = useContext(creationContext)
 
     return (
         <>
@@ -11,6 +14,7 @@ export const Search = () => {
                     <input className="bg-transparent outline-none"
                         type="text"
                         placeholder="search..."
+                        onChange={(e) => setSearch(e.target.value)}
                     />
                 </section>
             </main>

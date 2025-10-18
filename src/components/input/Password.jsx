@@ -20,7 +20,7 @@ export const Password = () => {
 
     return (
         <>
-            <section className={`w-[85%] flex items-center gap-x-2 py-2 border-b-2 
+            <section className={`w-[85%] flex items-center gap-x-2 py-2 border-b-1
                 ${!signup.password || !login.password ? "border-red-500" : "border-purple-800"}`}>
                 <FaLock className="text-purple-800"/>
                 <input 

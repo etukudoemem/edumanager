@@ -18,6 +18,16 @@ export const CreationProvider = ({ children }) => {
     const [parent, setParent] = useState(parentsInfo)
     const [subject, setSubject] = useState(subjectsInfo)
     const [classes, setClasses] = useState(classesInfo)
+    const [search, setSearch] = useState("")
+
+    const searchItems = (item, setItem) => {
+        let filteredItems = [...item]
+        if (search) {
+            filteredItems = filteredItems.filter((i) => i.firstName.toLowerCase().includes(search.toLowerCase()))
+        } 
+        
+        setItem(filteredItems)
+    }
 
     const creationValues = {
         event,
@@ -33,7 +43,10 @@ export const CreationProvider = ({ children }) => {
         subject,
         setSubject,
         classes,
-        setClasses
+        setClasses,
+        search,
+        setSearch,
+        searchItems
     }
 
     return (

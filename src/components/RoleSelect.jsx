@@ -19,17 +19,17 @@ export const RoleSelect = () => {
             <section>
                 <div className={`flex items-center gap-x-2 w-full px-2 h-10 border-0 border-purple-600 
                         rounded relative bg-purple-500 text-white justify-center`}>
-                    <label htmlFor="subjects" className=" font-semibold" 
-                        onClick={() => setView(!view)}>Select role</label>
-                    <div>
+                    <label htmlFor="roles" className=" font-semibold" 
+                        >Select role</label>
+                    {/* <div>
                         {view ? <FaChevronDown size={12}/> : <FaChevronRight size={12}/>}
-                    </div>
-                    <select id="subjects" name="roles" multiple onChange={handleRole}
+                    </div> */}
+                    {/* <select id="roles" name="roles" onChange={handleRole}
                         className={`flex flex-col text-sm w-full outline-none rounded
-                            ${view ? "block" : "hidden"} h-39 py-2 bg-purple-500 z-10 absolute top-12 left-0`}>
+                            ${view ? "block" : "hidden"} h-39 py-2 bg-purple-500 z-10 absolute top-12 left-0`}> */}
                         {/* {
                             roles.map((role) =>  */}
-                                <option className="text-center py-2" value="Admin">
+                                {/* <option className="text-center py-2" value="Admin">
                                     Admin
                                 </option>
                                 <option className="text-center py-2" value="Teacher">
@@ -40,11 +40,19 @@ export const RoleSelect = () => {
                                 </option>
                                 <option className="text-center py-2" value="Parent">
                                     Parent
-                                </option>
+                                </option> */}
                             {/* )
                         } */}
                         
+                    {/* </select> */}
+                    <select name="roles" id="roles" onClick={handleRole} className={`flex items-center justify-between text-sm w-[25%] md:w-[40%] outline-none hidden} bg-purple-500`}>
+                        <option value=""></option>
+                        <option value="Admin">Admin</option>
+                        <option value="Teacher">Teacher</option>
+                        <option value="Student">Student</option>
+                        <option value="Parent">Parent</option>
                     </select>
+
                 </div>
             </section>
          </>

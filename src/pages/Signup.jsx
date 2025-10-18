@@ -15,12 +15,13 @@ export const Signup = () => {
     const { createNewUser, signup, signUserOut } = useContext(authContext)
     return (
         <>
-            <main className="w-full h-screen flex flex-col justify-center items-center">
+            <main className="w-full h-screen flex flex-col justify-center items-center bg-purple-50">
                 <form onSubmit={(e) => createNewUser(e)}
-                    className="w-full md:w-120 h-screen flex flex-col gap-y-10 justify-center items-center">
-                    <header className="text-xl font-semibold text-purple-800">
-                        Sign Up
+                    className="w-full md:w-120 h-screen flex flex-col gap-y-10 justify-center items-center bg-white">
+                    <header className="text-xl font-semibold text-purple-800 text-center">
+                        <h2>Sign Up</h2>
                     </header>
+                    <p className="text-sm">Create your account to continue</p>
                     <section className="w-full flex flex-col gap-y-6 justify-center items-center">
                         <FirstName />
                         {!signup.firstName && 

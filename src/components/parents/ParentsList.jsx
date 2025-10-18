@@ -1,16 +1,16 @@
-import { FaEdit, FaUserCircle } from "react-icons/fa"
-import { RiDeleteBin5Line } from "react-icons/ri"
+import { FaUserCircle } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 import { usePaginate } from "../../hooks/usePaginate"
 import { Pagination } from "../../components/Pagination"
 import { Modal } from "../modals/Modal"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { creationContext } from "../../contexts/CreationProvider"
 
 export const ParentsList = () => {
-    const { parent, setParent } = useContext(creationContext)
+    const { parent } = useContext(creationContext)
     const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(parent)
     const navigate = useNavigate()
+    
     return (
         <>
             <main>

@@ -12,10 +12,11 @@ export const Login = () => {
         <>
             <main className="w-full h-screen flex flex-col justify-center items-center bg-purple-50">
                 <form onSubmit={(e) => signUserIn(e)}
-                    className="w-full md:w-120 h-screen flex flex-col gap-y-10 justify-center items-center">
+                    className="w-full md:w-120 h-screen flex flex-col gap-y-10 justify-center items-center bg-white">
                     <header className="text-xl font-semibold text-purple-800">
                         Welcome Back!
                     </header>
+                    <p className="text-sm">Log into your account to continue</p>
                     <section className="w-full flex flex-col gap-y-6 justify-center items-center">
                         <Email />
                         {!login.email && 
