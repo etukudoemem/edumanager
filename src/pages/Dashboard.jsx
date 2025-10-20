@@ -55,12 +55,12 @@ export const Dashboard = () => {
                                 return <InfoCard key={info.role} info={info}/>
                             })}
                         </div>
-                        <div className="w-full h-180 md:h-150 lg:h-70 grid grid-cols-5 grid-rows-11 mt-2
+                        <div className="w-full h-180 md:h-150 lg:h-70 grid grid-cols-4 grid-rows-11 mt-2
                             gap-x-4 gap-y-4">
                             <div className="col-span-5 row-span-5 md:row-span-5 lg:col-span-2 lg:row-span-11">
                                 <StudentsInformation />
                             </div>
-                            <div className="col-span-5 row-span-6 md:row-span-7 lg:col-span-3 lg:row-span-11">
+                            <div className="col-span-5 row-span-6 md:row-span-7 lg:col-span-2 lg:row-span-11">
                                 <AttendanceInfo />
                             </div>
                         </div>

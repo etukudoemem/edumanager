@@ -12,7 +12,7 @@ import { creationContext } from "../../contexts/CreationProvider"
 
 export const TeachersList = () => {
     const navigate = useNavigate()
-    const { teacher } = useContext(creationContext)
+    const { teacher, search } = useContext(creationContext)
     const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(teacher)
     // useEffect(() => {
     //     console.log(currentItems)
@@ -35,7 +35,9 @@ export const TeachersList = () => {
                     </thead>
                     <tbody>
                         {
-                            currentItems.map((info) =>
+                            currentItems.filter((item) => {
+                                return search.toLowerCase() === "" ? item : item.firstName.toLowerCase().includes(search)
+                            }).map((info) =>
                                 <tr key={info.id}>
                                     <td onClick={() => navigate(`${info.id}`)}>
                                         <span data-title="View teacher">

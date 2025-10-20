@@ -4,6 +4,6 @@ export const announcements = [
         title: "About 4A Maths Test",
         date: "2025-10-02",
         details: "The Maths test scheduled for the 2nd of October has been cancelled.",
-        classe: "2C"
+        classe: "4A"
     }
 ]

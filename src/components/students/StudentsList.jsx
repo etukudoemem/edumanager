@@ -7,7 +7,7 @@ import { useContext } from "react"
 import { creationContext } from "../../contexts/CreationProvider"
 
 export const StudentsList = () => {
-    const { student } = useContext(creationContext)
+    const { student, search } = useContext(creationContext)
     const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(student)
     const navigate = useNavigate()
 
@@ -28,7 +28,9 @@ export const StudentsList = () => {
                     </thead>
                     <tbody>
                         {
-                            currentItems.map((info) =>
+                            currentItems.filter((item) => {
+                                return search.toLowerCase() === "" ? item : item.toLowerCase().includes(search)
+                            }).map((info) =>
                                 <tr key={info.id}>
                                     <td onClick={() => navigate(`${info.id}`)}>
                                         <span data-title="View teacher">

@@ -9,7 +9,7 @@ import { useContext } from "react"
 import { creationContext } from "../contexts/CreationProvider"
 
 export const EventsList = () => {
-    const { event } = useContext(creationContext)
+    const { event, search } = useContext(creationContext)
     const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(event)
     
     const navigate = useNavigate()
@@ -30,7 +30,9 @@ export const EventsList = () => {
                     </thead>
                     <tbody>
                         {
-                            currentItems.map((info) =>
+                            currentItems.filter((item) => {
+                                return search.toLowerCase() === "" ? item : item.title.toLowerCase().includes(search)
+                            }).map((info) =>
                                 <tr key={info.id}>
                                     <td onClick={() => navigate(`${info.id}`)}>
                                         <p className="font-semibold">{info.title}</p>

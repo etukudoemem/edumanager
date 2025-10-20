@@ -2,13 +2,12 @@ import { useNavigate } from "react-router-dom"
 import { usePaginate } from "../hooks/usePaginate"
 import { Pagination } from "./Pagination"
 import { Modal } from "./modals/Modal"
-import { classesInfo } from "../utils/classesInfo"
 import { useContext } from "react"
 import { creationContext } from "../contexts/CreationProvider"
 
 export const ClassesList = () => {
     const navigate = useNavigate()
-    const { classes, setClasses } = useContext(creationContext)
+    const { classes, search } = useContext(creationContext)
     const { currentItems, currentPage, lastPage, handleNext, handlePrevious } = usePaginate(classes)
 
     return (
@@ -26,7 +25,9 @@ export const ClassesList = () => {
                     </thead>
                     <tbody>
                         {
-                            currentItems.map((info) =>
+                            currentItems.filter((item) => {
+                                return search.toLowerCase() === "" ? item : item.classe.toLowerCase().includes(search)
+                            }).map((info) =>
                                 <tr key={info.id}>
                                     <td onClick={() => navigate(`${info.id}`)}>
                                         {info.classe}
