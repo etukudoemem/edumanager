@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
     const [retrievedUsers, setRetrievedUsers] = useState(getDbUserDetails())
     const [userDetails, setUserDetails] = useState(getUserInfo())
     
-    // console.log(retrievedUsers)
+    console.log(retrievedUsers)
 
     const [isLoggedIn, setIsLoggedIn] = useState(getUserStatus())
     const [isLoading, setIsLoading] = useState(false)
@@ -88,23 +88,6 @@ export const AuthProvider = ({ children }) => {
         setUserInfo()
     }, [isLoggedIn])
 
-    // const retrieveUsers = (data, email) => {
-    //     const existingUser = retrievedUsers.find((user) =>{
-    //         if (user.email === email ) {
-    //             return user.email
-    //         }
-    //     })
-    //     setRetrievedUsers(
-    //         data.map((user) => {
-    //             if (user.email === existingUser) {
-    //                 return
-    //             } else {
-    //                 return user
-    //             }
-    //         })
-    //     )
-    // }
-
     const setDetails = (email) => {
         retrievedUsers.map((user) => {
             if (user.email === email) {
@@ -117,7 +100,7 @@ export const AuthProvider = ({ children }) => {
         )
     }
 
-    // console.log(userDetails)
+    console.log(userDetails)
 
     const usersCollectionRef = collection(db, "users")
     
@@ -165,6 +148,11 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(true)
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
             await addDoc(usersCollectionRef, {email, firstName, lastName, selectedRole})
+            const data = await getDocs(usersCollectionRef)
+            const usersData = data.docs.map((doc) =>
+                ({...doc.data(), id: doc.id})
+            )
+            setRetrievedUsers(usersData)
             // setIsLoggedIn(true)
             navigate("/login")
             const user = userCredential
@@ -218,14 +206,11 @@ export const AuthProvider = ({ children }) => {
 
         try {
             setIsLoading(true)
-            const data = await getDocs(usersCollectionRef)
-            const usersData = data.docs.map((doc) =>
-                ({...doc.data(), id: doc.id})
-            )
-            setRetrievedUsers(usersData)
+            
+            setDetails(email)
             // console.log(usersData)
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
-            setDetails(email)
+            
             setIsLoggedIn(true)
             navigate("/")
             const user = userCredential

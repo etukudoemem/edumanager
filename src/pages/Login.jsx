@@ -12,7 +12,7 @@ export const Login = () => {
         <>
             <main className="w-full h-screen flex flex-col justify-center items-center bg-purple-50">
                 <form onSubmit={(e) => signUserIn(e)}
-                    className="w-full md:w-120 h-screen flex flex-col gap-y-10 justify-center items-center bg-white">
+                    className="w-full md:w-120 h-[60vh] flex flex-col gap-y-10 justify-center items-center bg-white">
                     <header className="text-xl font-semibold text-purple-800">
                         Welcome Back!
                     </header>

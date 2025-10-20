@@ -62,10 +62,10 @@ export const DashboardLayout = () => {
 
     return (
         <>
-            <main className="flex w-full h-full bg-slate-50">
+            <main className="flex w-full min-h-full bg-slate-50">
                 <section className="w-[15%] min-h-[100vh] md:w-[10%] lg:w-[15%] text-2xl lg:text-sm">
                     {/* Left */}
-                    <div className="sticky top-0 h-[100vh] flex flex-col items-center lg:justify-start shadow-xl lg:pr-2 px-2 lg:px-0 py-2">
+                    <div className="sticky top-0 min-h-[100vh] flex flex-col items-center lg:justify-start shadow-xl lg:pr-2 px-2 lg:px-0 py-2">
                         <section className="w-full flex flex-col gap-y-3 ">
                             <div onClick={() => navigate("/")}
                                 className="font-medium text-sm text-purple-900 flex items-center gap-x-1 justify-center lg:justify-start mb-5 px-2">
@@ -103,7 +103,7 @@ export const DashboardLayout = () => {
                         <div className="py-2 mt-2">
                             {/* <Search /> */}
                         </div>
-                        <div className="md:flex hidden items-center justify-end gap-x-3 p-2">
+                        <div className="flex items-center justify-end gap-x-3 p-2">
                             <Notifications />
                             <UserInfo />
                             <Avatar />

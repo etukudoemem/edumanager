@@ -17,7 +17,7 @@ export const Signup = () => {
         <>
             <main className="w-full h-screen flex flex-col justify-center items-center bg-purple-50">
                 <form onSubmit={(e) => createNewUser(e)}
-                    className="w-full md:w-120 h-screen flex flex-col gap-y-10 justify-center items-center bg-white">
+                    className="w-full md:w-120 h-[88vh] flex flex-col gap-y-10 justify-center items-center bg-white">
                     <header className="text-xl font-semibold text-purple-800 text-center">
                         <h2>Sign Up</h2>
                     </header>
