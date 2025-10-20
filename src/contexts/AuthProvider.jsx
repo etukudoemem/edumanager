@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
     const [retrievedUsers, setRetrievedUsers] = useState(getDbUserDetails())
     const [userDetails, setUserDetails] = useState(getUserInfo())
     
-    console.log(retrievedUsers)
+    // console.log(retrievedUsers)
 
     const [isLoggedIn, setIsLoggedIn] = useState(getUserStatus())
     const [isLoading, setIsLoading] = useState(false)
@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }) => {
         )
     }
 
-    console.log(userDetails)
+    // console.log(userDetails)
 
     const usersCollectionRef = collection(db, "users")
     
@@ -180,9 +180,6 @@ export const AuthProvider = ({ children }) => {
         }
 
     }
-    // useEffect(() => {
-    //     console.log(input)
-    // }, [input])
 
     const signUserIn = async(e) => {
         e.preventDefault()
@@ -206,7 +203,11 @@ export const AuthProvider = ({ children }) => {
 
         try {
             setIsLoading(true)
-            
+            const data = await getDocs(usersCollectionRef)
+            const usersData = data.docs.map((doc) =>
+                ({...doc.data(), id: doc.id})
+            )
+            setRetrievedUsers(usersData)
             setDetails(email)
             // console.log(usersData)
             const userCredential = await signInWithEmailAndPassword(auth, email, password)
@@ -228,7 +229,7 @@ export const AuthProvider = ({ children }) => {
                 return
             }
 
-            console.log(error.message)
+            // console.log(error.message)
         } finally {
             setIsLoading(false)
             return
@@ -239,7 +240,7 @@ export const AuthProvider = ({ children }) => {
         signOut(auth).then(() => {
             setIsLoggedIn(false)
             
-            console.log("Sign-out successful.")
+            // console.log("Sign-out successful.")
             }).catch((error) => {
             // An error happened.
         });
@@ -249,9 +250,9 @@ export const AuthProvider = ({ children }) => {
         onAuthStateChanged (auth, (user) => {
             if (user) {
                 setIsLoggedIn(true)
-                console.log(user.email + "is signed in.")
+                // console.log(user.email + "is signed in.")
             } else {
-                console.log("no user is signed in.")
+                // console.log("no user is signed in.")
             }
         })
     }
