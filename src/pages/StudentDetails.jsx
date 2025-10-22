@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { StudentInfoCard } from "../components/students/StudentInfoCard"
-import { studentsInfo } from "../utils/studentsInfo"
 import { StudentShortcuts } from "../components/students/StudentShortcuts"
 import { AnnouncementsList } from "../components/announcement/AnnouncementsList"
 import { StudentSchedule } from "../components/students/StudentSchedule"
@@ -27,9 +26,6 @@ export const StudentDetails = () => {
     useEffect(() => {
         getStudentInfo()
     }, [studentID])
-
-    // const event = new Date(2025, 8, 17, 8, 30)
-    // console.log(event)
 
     return (
         <>

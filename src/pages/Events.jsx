@@ -1,10 +1,7 @@
-import { VscSettings } from "react-icons/vsc"
 import { Search } from "../components/Search"
 import { EventsList } from "../components/EventsList"
-import { MdSort } from "react-icons/md"
-import { IoMdAdd } from "react-icons/io"
 import { Modal } from "../components/modals/Modal"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { authContext } from "../contexts/AuthProvider"
 import { Toast } from "../components/toasts/Toast"
 

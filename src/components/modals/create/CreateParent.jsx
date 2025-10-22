@@ -36,6 +36,7 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
     ])
 
     const [child, setChild] = useState([])
+    const [input, setInput] = useState("")
 
     // const names = () => {
     //     inputField.map((field) => {
@@ -57,6 +58,7 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
         const email = formData.get("email")
         const address = formData.get("address")
         const gender = formData.get("gender")
+        // setChild([...child, input])
         
         
         // const { name } = e.target
@@ -89,18 +91,19 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
 
         if (type === "create") {
             setParent(
-                [...parent, {id: nextId++, firstName, lastName, children: (inputField.map((input) => input.value)), phone, email, address, gender}]
+                [...parent, {id: nextId++, firstName, lastName, children: inputField.map((input) => input.value), phone, email, address, gender}]
             )
             addToast(toast, "create")
         } else {
             setParent(
                 parent.map((p) => 
-                    p.id === parentId ? {id: p.id, firstName, lastName, children: [...p.children], phone, email, address, gender} : p
+                    p.id === parentId ? {id: p.id, firstName, lastName, children: [...p.children, input], phone, email, address, gender} : p
                 )
             )
             addToast(toast, "edit")
         }
         removeToast()
+        setShow(false)
         console.log(parent)
     }
 
@@ -108,18 +111,18 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
         const { name } = e.target
         setParentInput({...parentInput, [name]: true})
     }
-    const handleInputField = (e, inputId) => {
-        if (e.target.value) {
-            setParentInput({...parentInput, childName: true})
-            setInputField(inputField.map((input) => 
-                input.id === inputId ? {...input, value: [input.value, e.target.value]} : input
-            ))
-        }
 
-        
-        // setInputField(inputField.map((input) => 
-        //     input.id === inputId ? {...input, value: e.target.value} : input
-        // ))
+    const handleInputField = (e, inputId) => {
+        if (e.target.value === "") {
+            console.log("it's empty")
+            return
+        }
+        setParentInput({...parentInput, childName: true})
+            setInputField(
+                inputField.map((i) => i.id === inputId ? {...i, value: e.target.value} : i)
+            )
+            setInput(e.target.value)
+            console.log(input)
         
         console.log(inputField)
     }
@@ -132,11 +135,15 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
         )
     }
 
-    const handleRemoveChild = (inputId) => {
+    const handleRemoveChild = (inputId, inputValue) => {
         setInputField(
             inputField.filter((input) => input.id !== inputId)
         )
+        // setChild(
+        //     child.filter((item) => item !== inputValue)
+        // )
     }
+
     return (
         <>
             <form onSubmit={(e) => {if (type === "create") {
@@ -198,6 +205,7 @@ export const CreateParent = ({ table, type, setShow, photo, setPhoto, handlePhot
                                             <input 
                                                 type="text" 
                                                 name="childName"
+                                                // value={type === "edit" ? parentInfo.children[index] : ""}
                                                 defaultValue={type === "edit" ? parentInfo.children[index] : ""}
                                                 className="outline-none w-full"
                                                 placeholder="First and Last name"

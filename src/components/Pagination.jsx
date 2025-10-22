@@ -16,7 +16,7 @@ export const Pagination = ({ currentItems, currentPage, lastPage, handleNext, ha
                 </div>
                     <button onClick={handleNext} className={`cursor-pointer bg-[#f0f0ff] p-2 shadow-md rounded-full 
                         text-purple-700 ${currentPage === lastPage && "bg-gray-200 text-white"}`}
-                        disabled={currentPage === lastPage && true}>
+                        disabled={currentPage === lastPage < 1 && true}>
                         <FaChevronRight size={12} />
                     </button>
             </section>

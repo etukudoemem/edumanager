@@ -66,7 +66,8 @@ export const ParentsList = () => {
                         currentPage={currentPage}
                         lastPage={lastPage}
                         handleNext={handleNext}
-                        handlePrevious ={handlePrevious}   
+                        handlePrevious ={handlePrevious}
+                        parent={parent}   
                     />
                 </section>
             </main>

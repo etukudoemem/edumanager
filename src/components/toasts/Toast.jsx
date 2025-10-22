@@ -75,9 +75,6 @@ export const Toast = ({ text, type, table }) => {
                         <AuthToast type={type} text={text} />
                     </section>
                 </main>) : null
-            // : toast.create ? <CreateToast table={table} type={type} />
-            // : toast.edit ? <CreateToast table={table} type={type} />
-            // : null
         )
     }
 
@@ -85,14 +82,9 @@ export const Toast = ({ text, type, table }) => {
         <> 
             <main >
                     <section >
-                            
-                            {
-                                popUp()
-                            }
+                            {popUp()}
                     </section>
             </main>
         </>
     )
 }
-
-// fixed top-2 left-2

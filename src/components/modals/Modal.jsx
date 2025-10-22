@@ -25,7 +25,7 @@ export const Modal = (
             announcement, setAnnouncement} = useContext(creationContext)
 
     const { signUserOut } = useContext(authContext)
-    const { addToast, removeToast, toast, setToast, setShowToast } = useContext(toastContext)
+    const { addToast, removeToast, toast } = useContext(toastContext)
 
     const [show, setShow] = useState(false)
     // const size = type === "filter" | "sort" | "create" ? "w-7 h-7" : "w-9 h-9"

@@ -1,8 +1,5 @@
-import { VscSettings } from "react-icons/vsc"
 import { Search } from "../components/Search"
 import { ParentsList } from "../components/parents/ParentsList"
-import { MdSort } from "react-icons/md"
-import { IoMdAdd } from "react-icons/io"
 import { Modal } from "../components/modals/Modal"
 import { useContext } from "react"
 import { authContext } from "../contexts/AuthProvider"
